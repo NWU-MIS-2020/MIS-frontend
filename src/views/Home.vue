@@ -49,7 +49,6 @@
                 </v-menu>
             </v-avatar>
         </v-app-bar>
-
         <v-content>
             <router-view></router-view>
         </v-content>
@@ -75,7 +74,12 @@ export default {
             },
             {
                 name: "教师",
-                actions: ["23", "334"]
+                actions: [
+                    {
+                        name: "录入达成度指标点",
+                        route: "lurudachengduzhibiaodian"
+                    }
+                ]
             },
             {
                 name: "导员",
@@ -85,18 +89,9 @@ export default {
                         route: "tutor/cards"
                     }
                 ]
+                
             }
         ],
-        admins: [
-            ["Management", "mdi-people_outline"],
-            ["Settings", "mdi-settings"]
-        ],
-        cruds: [
-            ["Create", "mdi-add"],
-            ["Read", "mdi-insert_drive_file"],
-            ["Update", "mdi-update"],
-            ["Delete", "mdi-delete"]
-        ]
     })
 };
 </script>
