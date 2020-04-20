@@ -76,6 +76,15 @@ export default {
             {
                 name: "教师",
                 actions: ["23", "334"]
+            },
+            {
+                name: "导员",
+                actions: [
+                    {
+                        name: "查询学生毕业要求达成度",
+                        route: "tutor/cards"
+                    }
+                ]
             }
         ],
         admins: [

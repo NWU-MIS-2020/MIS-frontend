@@ -21,6 +21,14 @@ const routes = [
         path: 'personal_graduation_requirements',
         component: PersonalGraduationRequirements
       },
+      {
+        path: 'tutor/cards',
+        component: () => import('../views/tutor/Cards.vue'),
+      },
+      {
+        path: 'tutor/students',
+        component: () => import('../views/tutor/Students.vue'),
+      },
     ]
   },
   {
