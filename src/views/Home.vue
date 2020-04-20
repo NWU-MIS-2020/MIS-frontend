@@ -2,62 +2,57 @@
     <div>
         <v-navigation-drawer v-model="drawer" app>
             <v-list dense>
-                <v-list-item link>
+                <v-list-item to="/home" link>
                     <v-list-item-action>
                         <v-icon>mdi-home</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>Home</v-list-item-title>
+                        <v-list-item-title>主页</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item link>
-                    <v-list-item-action>
-                        <v-icon>mdi-contact-mail</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>Contact</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
+                <v-list-group v-for="(role, i) in roles" :key="i">
+                    <template v-slot:activator>
+                        <v-list-item-title>{{role.name}}</v-list-item-title>
+                    </template>
+
+                    <v-list-item
+                        v-for="(action, i) in role.actions"
+                        :key="i"
+                        :to="'/home/'+action.route"
+                        link
+                    >
+                        <v-list-item-title v-text="action.name"></v-list-item-title>
+                        <!-- <v-list-item-icon>
+                            <v-icon v-text="admin[1]"></v-icon>
+                        </v-list-item-icon>-->
+                    </v-list-item>
+                </v-list-group>
             </v-list>
         </v-navigation-drawer>
 
         <v-app-bar app color="primary" dark>
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-            <v-toolbar-title>Application</v-toolbar-title>
+            <v-toolbar-title>毕业达成度管理系统</v-toolbar-title>
+            <v-avatar>
+                <v-menu open-on-hover offset-y>
+                    <template v-slot:activator="{ on }">
+                        <v-icon dark v-on="on">mdi-account-circle</v-icon>
+                    </template>
+                    <v-list>
+                        <v-list-item>
+                            <v-list-item-title>设置</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>退出</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </v-avatar>
         </v-app-bar>
 
         <v-content>
-            <v-container class="fill-height" fluid>
-                <v-row align="center" justify="center">
-                    <v-col class="text-center">
-                        <v-tooltip left>
-                            <template v-slot:activator="{ on }">
-                                <v-btn :href="source" icon large target="_blank" v-on="on">
-                                    <v-icon large>mdi-code-tags</v-icon>
-                                </v-btn>
-                            </template>
-                            <span>Source</span>
-                        </v-tooltip>
-
-                        <v-tooltip right>
-                            <template v-slot:activator="{ on }">
-                                <v-btn
-                                    icon
-                                    large
-                                    href="https://codepen.io/johnjleider/pen/zgxeLQ"
-                                    target="_blank"
-                                    v-on="on"
-                                >
-                                    <v-icon large>mdi-codepen</v-icon>
-                                </v-btn>
-                            </template>
-                            <span>Codepen</span>
-                        </v-tooltip>
-                    </v-col>
-                </v-row>
-            </v-container>
+            <router-view></router-view>
         </v-content>
-
     </div>
 </template>
 
@@ -67,7 +62,32 @@ export default {
         source: String
     },
     data: () => ({
-        drawer: null
+        drawer: null,
+        roles: [
+            {
+                name: "学生",
+                actions: [
+                    {
+                        name: "查询个人毕业要求达成度",
+                        route: "personal_graduation_requirements"
+                    }
+                ]
+            },
+            {
+                name: "教师",
+                actions: ["23", "334"]
+            }
+        ],
+        admins: [
+            ["Management", "mdi-people_outline"],
+            ["Settings", "mdi-settings"]
+        ],
+        cruds: [
+            ["Create", "mdi-add"],
+            ["Read", "mdi-insert_drive_file"],
+            ["Update", "mdi-update"],
+            ["Delete", "mdi-delete"]
+        ]
     })
 };
 </script>
