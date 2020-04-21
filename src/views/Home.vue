@@ -144,6 +144,7 @@ export default {
         setting_dialog: false,
         messgaes: ["这是一条测试信息。", "这是第二条测试信息。"]
     }),
+    mounted() {},
     methods: {}
 };
 </script>
