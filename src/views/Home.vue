@@ -34,9 +34,21 @@
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
             <v-toolbar-title>毕业达成度管理系统</v-toolbar-title>
             <v-spacer />
-            <v-btn icon>
-                <v-icon>mdi-bell</v-icon>
-            </v-btn>
+            <v-menu offset-y>
+                <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" icon>
+                        <v-icon>mdi-bell</v-icon>
+                    </v-btn>
+                </template>
+                <v-sheet width="330">
+                    <v-list>
+                        <v-list-item v-for="(message, index) in messgaes" :key="index">
+                            <v-list-item-title>{{ message }}</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-sheet>
+            </v-menu>
+
             <v-btn icon>
                 <v-menu open-on-hover offset-y>
                     <template v-slot:activator="{ on }">
@@ -89,7 +101,7 @@ export default {
                     {
                         name: "查询个人毕业要求达成度预警",
                         route: "student/alarm"
-                    },
+                    }
                 ]
             },
             {
@@ -109,20 +121,28 @@ export default {
                         route: "tutor/cards"
                     }
                 ]
-                
             },
             {
                 name: "课程负责人",
                 actions: [
                     {
-                        name: "查询负责课程",
+                        name: "审核负责课程",
                         route: "cm/cards"
                     }
                 ]
-                
             },
+            {
+                name: "专业负责人",
+                actions: [
+                    {
+                        name: "格式化培养方案",
+                        route: "major_manager/structure"
+                    }
+                ]
+            }
         ],
-        setting_dialog: false
+        setting_dialog: false,
+        messgaes: ["这是一条测试信息。", "这是第二条测试信息。"]
     }),
     methods: {}
 };

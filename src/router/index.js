@@ -17,8 +17,12 @@ const routes = [
     component: Home,
     children: [
       {
-        path: 'personal_graduation_requirements',
-        component: () => import('../views/PersonalGraduationRequirements'),
+        path: '',
+        component: () => import('../views/HomeContent')
+      },
+      {
+        path: 'major_manager/structure',
+        component: () => import('../views/major_manager/Structure')
       },
       {
         path: 'teacher/select_course',
@@ -57,36 +61,36 @@ const routes = [
         component: () => import('../views/student/Alarm.vue'),
         redirect: 'student/alarm/alarm1',
         children: [
-            {
-                path: 'alarm1',
-                component: () => import('../components/TagDateTable.vue'),
-            },
-            
-            {
-                path: 'alarm2',
-                component: () => import('../components/PatternDataTable.vue'),
-            },
-            {
-                path: 'alarm3',
-                component: () => import('../components/CategoryDataTable.vue'),
-            },
-            {
-                path: '*',
-                name: 'other',
-                redirect: 'alarm1',
-            }, 
-    ]
-  },
-  {
-    path: '/student',
-    component: () => import('../views/student/studentHome.vue'),
-    children:[
-      
+          {
+            path: 'alarm1',
+            component: () => import('../components/TagDateTable.vue'),
+          },
+
+          {
+            path: 'alarm2',
+            component: () => import('../components/PatternDataTable.vue'),
+          },
+          {
+            path: 'alarm3',
+            component: () => import('../components/CategoryDataTable.vue'),
+          },
+          {
+            path: '*',
+            name: 'other',
+            redirect: 'alarm1',
+          },
         ]
-    },
+      },
+      {
+        path: '/student',
+        component: () => import('../views/student/studentHome.vue'),
+        children: [
+
+        ]
+      },
     ],
   },
-  
+
   {
     path: '/about',
     name: 'About',
