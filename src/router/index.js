@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login'
-import PersonalGraduationRequirements from '../views/PersonalGraduationRequirements'
 import CourseLeaderHome from '../views/CourseLeaderHome'
 import CourseLeaderRequestsList from '../views/CourseLeaderRequestsList'
 import CourseLeaderStatisticDetails from '../views/CourseLeaderStatisticDetails'
@@ -22,7 +21,15 @@ const routes = [
     children: [
       {
         path: 'personal_graduation_requirements',
-        component: PersonalGraduationRequirements
+        component: () => import('../views/PersonalGraduationRequirements'),
+      },
+      {
+        path: 'teacher/select_course',
+        component: () => import('../views/teacher/Cards')
+      },
+      {
+        path: 'teacher/input',
+        component: () => import('../views/teacher/InputGrades')
       },
       {
         path: 'tutor/cards',
