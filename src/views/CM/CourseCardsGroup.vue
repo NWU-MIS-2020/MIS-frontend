@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="padding: 20px">
         <v-row>
             <v-col v-for="(item, i) in items" :key="i" cols="6" md="3">
                 <v-card class="mx-auto" max-width="344" raised outlined 
@@ -47,7 +47,7 @@
         }),
         methods: {
             clickCard: function () {
-                this.$router.push({path: '/courseLeaderRequestsList'})
+                this.$router.push({path: 'list'})
             },
         }
     }

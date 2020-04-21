@@ -2,9 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login'
-import CourseLeaderHome from '../views/CourseLeaderHome'
-import CourseLeaderRequestsList from '../views/CourseLeaderRequestsList'
-import CourseLeaderStatisticDetails from '../views/CourseLeaderStatisticDetails'
 
 Vue.use(VueRouter)
 
@@ -39,44 +36,52 @@ const routes = [
         path: 'tutor/students',
         component: () => import('../views/tutor/Students.vue'),
       },
+      {
+        path: 'cm/cards',
+        component: () => import('../views/CM/CourseCardsGroup')
+      },
+      {
+        path: 'cm/list',
+        component: () => import('../views/CM/CourseLeaderList')
+      },
+      {
+        path: 'cm/statistic_details',
+        component: () => import('../views/CM/CourseLeaderStatisticDetails')
+      },
+      {
+        path: 'student/inquire',
+        component: () => import('../views/student/RightInquire.vue'),
+      },
+      {
+        path: 'student/alarm',
+        component: () => import('../views/student/Alarm.vue'),
+        redirect: 'student/alarm/alarm1',
+        children: [
+            {
+                path: 'alarm1',
+                component: () => import('../components/TagDateTable.vue'),
+            },
+            
+            {
+                path: 'alarm2',
+                component: () => import('../components/PatternDataTable.vue'),
+            },
+            {
+                path: 'alarm3',
+                component: () => import('../components/CategoryDataTable.vue'),
+            },
+            {
+                path: '*',
+                name: 'other',
+                redirect: 'alarm1',
+            }, 
     ]
   },
   {
     path: '/student',
     component: () => import('../views/student/studentHome.vue'),
     children:[
-      {
-        path: '/student/inquire',
-        name: 'rightInquire',
-        component: () => import('../views/student/RightInquire.vue'),
-      },
-      {
-        path: '/student/alarm1',
-        name: 'alarm1',
-        component: () => import('../views/student/Alarm.vue'),
-        redirect: '/student/alarm1/alarm11',
-        children: [
-            {
-                path: 'alarm11',
-                name: 'alarm11',
-                component: () => import('../components/TagDateTable.vue'),
-            },
-            
-            {
-                path: 'alarm12',
-                name: 'alarm12',
-                component: () => import('../components/PatternDataTable.vue'),
-            },
-            {
-                path: 'alarm13',
-                name: 'alarm13',
-                component: () => import('../components/CategoryDataTable.vue'),
-            },
-            {
-                path: '*',
-                name: 'other',
-                redirect: 'alarm11',
-            }, 
+      
         ]
     },
     ],
@@ -90,21 +95,6 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
-  {
-    path: '/courseLeaderHome',
-    name: 'CourseLeaderHome',
-    component: CourseLeaderHome
-  },
-  {
-    path: '/courseLeaderRequestsList',
-    name: 'CourseLeaderRequestsList',
-    component: CourseLeaderRequestsList
-  },
-  {
-    path: '/courseLeaderStatisticDetails',
-    name: 'CourseLeaderStatisticDetails',
-    component: CourseLeaderStatisticDetails
-  }
 ]
 
 const router = new VueRouter({
