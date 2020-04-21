@@ -68,8 +68,12 @@ export default {
                 actions: [
                     {
                         name: "查询个人毕业要求达成度",
-                        route: "personal_graduation_requirements"
-                    }
+                        route: "student/inquire"
+                    },
+                    {
+                        name: "查询个人毕业要求达成度预警",
+                        route: "student/alarm"
+                    },
                 ]
             },
             {
@@ -90,7 +94,17 @@ export default {
                     }
                 ]
                 
-            }
+            },
+            {
+                name: "课程负责人",
+                actions: [
+                    {
+                        name: "查询负责课程",
+                        route: "cm/cards"
+                    }
+                ]
+                
+            },
         ],
     })
 };

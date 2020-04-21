@@ -1,6 +1,6 @@
 <template>
     <v-tabs>
-        <v-tab :to="{name: item.routeName}" v-for="(item, index) in items" :key="index">{{ item.text }}</v-tab>
+        <v-tab :to="item.route" v-for="(item, index) in items" :key="index" link>{{ item.text }}</v-tab>
         <v-tabs-items>
             <router-view />
         </v-tabs-items>
@@ -11,9 +11,9 @@
     export default {
         data: () => ({
             items: [
-                { routeName: 'alarm11', text: '课程预警' },
-                { routeName: 'alarm12', text: '指标点预警' },
-                { routeName: 'alarm13', text: '毕业要求预警' },
+                { route: 'alarm1', text: '课程预警' },
+                { route: 'alarm2', text: '指标点预警' },
+                { route: 'alarm3', text: '毕业要求预警' },
             ],
         })
     }
