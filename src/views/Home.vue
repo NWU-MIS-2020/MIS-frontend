@@ -33,13 +33,17 @@
         <v-app-bar app color="primary" dark>
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
             <v-toolbar-title>毕业达成度管理系统</v-toolbar-title>
-            <v-avatar>
+            <v-spacer />
+            <v-btn icon>
+                <v-icon>mdi-bell</v-icon>
+            </v-btn>
+            <v-btn icon>
                 <v-menu open-on-hover offset-y>
                     <template v-slot:activator="{ on }">
                         <v-icon dark v-on="on">mdi-account-circle</v-icon>
                     </template>
                     <v-list>
-                        <v-list-item>
+                        <v-list-item @click.stop="setting_dialog = true">
                             <v-list-item-title>设置</v-list-item-title>
                         </v-list-item>
                         <v-list-item>
@@ -47,8 +51,20 @@
                         </v-list-item>
                     </v-list>
                 </v-menu>
-            </v-avatar>
+            </v-btn>
         </v-app-bar>
+
+        <v-dialog v-model="setting_dialog" persistent max-width="290">
+            <v-card>
+                <v-card-title class="headline">设置</v-card-title>
+                <v-card-text>待定</v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="setting_dialog = false">返回</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
         <v-content>
             <router-view></router-view>
         </v-content>
@@ -77,7 +93,7 @@ export default {
                 actions: [
                     {
                         name: "录入达成度指标点",
-                        route: "lurudachengduzhibiaodian"
+                        route: "teacher/select_course"
                     }
                 ]
             },
@@ -89,9 +105,10 @@ export default {
                         route: "tutor/cards"
                     }
                 ]
-                
             }
         ],
-    })
+        setting_dialog: false
+    }),
+    methods: {}
 };
 </script>
