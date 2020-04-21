@@ -35,6 +35,47 @@ const routes = [
     ]
   },
   {
+    path: '/student',
+    component: () => import('../views/student/studentHome.vue'),
+    children:[
+      {
+        path: '/student/inquire',
+        name: 'rightInquire',
+        component: () => import('../views/student/RightInquire.vue'),
+      },
+      {
+        path: '/student/alarm1',
+        name: 'alarm1',
+        component: () => import('../views/student/Alarm.vue'),
+        redirect: '/student/alarm1/alarm11',
+        children: [
+            {
+                path: 'alarm11',
+                name: 'alarm11',
+                component: () => import('../components/TagDateTable.vue'),
+            },
+            
+            {
+                path: 'alarm12',
+                name: 'alarm12',
+                component: () => import('../components/PatternDataTable.vue'),
+            },
+            {
+                path: 'alarm13',
+                name: 'alarm13',
+                component: () => import('../components/CategoryDataTable.vue'),
+            },
+            {
+                path: '*',
+                name: 'other',
+                redirect: 'alarm11',
+            }, 
+        ]
+    },
+    ],
+  },
+  
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
