@@ -33,22 +33,50 @@
         <v-app-bar app color="primary" dark>
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
             <v-toolbar-title>毕业达成度管理系统</v-toolbar-title>
-            <v-avatar>
+            <v-spacer />
+            <v-menu offset-y>
+                <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" icon>
+                        <v-icon>mdi-bell</v-icon>
+                    </v-btn>
+                </template>
+                <v-sheet width="330">
+                    <v-list>
+                        <v-list-item v-for="(message, index) in messgaes" :key="index">
+                            <v-list-item-title>{{ message }}</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-sheet>
+            </v-menu>
+
+            <v-btn icon>
                 <v-menu open-on-hover offset-y>
                     <template v-slot:activator="{ on }">
                         <v-icon dark v-on="on">mdi-account-circle</v-icon>
                     </template>
                     <v-list>
-                        <v-list-item>
+                        <v-list-item @click.stop="setting_dialog = true">
                             <v-list-item-title>设置</v-list-item-title>
                         </v-list-item>
-                        <v-list-item>
+                        <v-list-item @click="logout">
                             <v-list-item-title>退出</v-list-item-title>
                         </v-list-item>
                     </v-list>
                 </v-menu>
-            </v-avatar>
+            </v-btn>
         </v-app-bar>
+
+        <v-dialog v-model="setting_dialog" persistent max-width="290">
+            <v-card>
+                <v-card-title class="headline">设置</v-card-title>
+                <v-card-text>待定</v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="setting_dialog = false">返回</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
         <v-content>
             <router-view></router-view>
         </v-content>
@@ -62,9 +90,11 @@ export default {
     },
     data: () => ({
         drawer: null,
-        roles: [
+        roles: [],
+        roles_all: [
             {
                 name: "学生",
+                name_en: "student",
                 actions: [
                     {
                         name: "查询个人毕业要求达成度",
@@ -73,39 +103,78 @@ export default {
                     {
                         name: "查询个人毕业要求达成度预警",
                         route: "student/alarm"
-                    },
+                    }
                 ]
             },
             {
                 name: "教师",
+                name_en: "teacher",
                 actions: [
                     {
                         name: "录入达成度指标点",
-                        route: "lurudachengduzhibiaodian"
+                        route: "teacher/select_course"
                     }
                 ]
             },
             {
                 name: "导员",
+                name_en: "tutor",
                 actions: [
                     {
                         name: "查询学生毕业要求达成度",
                         route: "tutor/cards"
                     }
                 ]
-                
             },
             {
                 name: "课程负责人",
+                name_en: "CM",
                 actions: [
                     {
                         name: "审核课程达成度",
                         route: "cm/course_cards"
                     }
                 ]
-                
             },
+            {
+                name: "专业负责人",
+                name_en: "PM",
+                actions: [
+                    {
+                        name: "格式化培养方案",
+                        route: "PM/structure"
+                    }
+                ]
+            }
         ],
-    })
+        setting_dialog: false,
+        messgaes: ["这是一条测试信息。", "这是第二条测试信息。"]
+    }),
+    created() {
+        this.$axios
+            .get("user/groups/")
+            .then(response => {
+                let role = response.data.groups.map(role => role.name);
+                this.$store.commit("set_role", role);
+            })
+            .then(() => {
+                // for (let i of this.roles_all) {
+                //     if (this.actual_role.find(name => name == i.name_en)) {
+                //         this.roles.push(i);
+                //     }
+                // }
+            });
+        this.roles = this.roles_all;
+    },
+    computed: {
+        actual_role: function() {
+            return this.$store.state.role;
+        }
+    },
+    methods: {
+        logout: function() {
+            this.$router.push('/')
+        }
+    }
 };
 </script>

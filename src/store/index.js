@@ -5,8 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    role: undefined
   },
   mutations: {
+    set_role(state, role) {
+      state.role = role
+    }
   },
   actions: {
   },
