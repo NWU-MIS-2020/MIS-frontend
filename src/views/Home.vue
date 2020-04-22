@@ -131,8 +131,8 @@ export default {
                 name_en: "CM",
                 actions: [
                     {
-                        name: "审核负责课程",
-                        route: "cm/cards"
+                        name: "审核课程达成度",
+                        route: "cm/course_cards"
                     }
                 ]
             },
