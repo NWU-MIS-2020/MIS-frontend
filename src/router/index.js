@@ -57,6 +57,11 @@ const routes = [
         component: () => import('../views/student/RightInquire.vue'),
       },
       {
+        path: 'details',
+        name: 'details',
+        component: () => import('../views/student/Details.vue'),
+      },
+      {
         path: 'student/alarm',
         component: () => import('../views/student/Alarm.vue'),
         redirect: 'student/alarm/alarm1',
@@ -64,6 +69,12 @@ const routes = [
           {
             path: 'alarm1',
             component: () => import('../components/TagDateTable.vue'),
+            children: [
+              {
+                path: '1',
+                name: '1',
+                component: () => import('../components/Table.vue'),
+              },]
           },
 
           {
