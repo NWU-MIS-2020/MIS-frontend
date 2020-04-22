@@ -156,6 +156,8 @@ export default {
             .then(response => {
                 let role = response.data.groups.map(role => role.name);
                 this.$store.commit("set_role", role);
+                this.$store.commit("set_name", response.data.name);
+                this.$store.commit("set_username", response.data.username);
             })
             .then(() => {
                 // for (let i of this.roles_all) {

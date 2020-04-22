@@ -3,16 +3,16 @@
         <h1>选择课程教学班</h1>
         <v-divider></v-divider>
         <v-row>
-            <v-col v-for="(item, i) in items" :key="i" cols="6" md="3">
+            <v-col v-for="(item, i) in courses" :key="i" cols="6" md="3">
                 <v-card class="mx-auto" max-width="344" raised outlined 
-                    @click="click_card">
+                    @click="click_card(item.id)">
                     <v-list-item three-line>
                         <v-list-item-content>
-                            <div class="overline mb-4">{{ item.year }}级</div>
+                            <div class="overline mb-4">课程id: {{item.id}}</div>
                             
                             <v-list-item-title class="headline mb-1">{{ item.name }}</v-list-item-title>
                             
-                            <v-list-item-subtitle>人数: {{item.peaple}}</v-list-item-subtitle>
+                            <v-list-item-subtitle>人数: {{item.student_number}}</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                 </v-card>
@@ -24,33 +24,29 @@
 <script>
     export default {
         data: () => ({
-            items: [{
-                    year: "2017",
-                    name: "管理信息系统01",
-                    peaple: "33",
-                },
-                {
-                    year: "2017",
-                    name: "管理信息系统02",
-                    peaple: "32",
-                },
-                {
-                    year: "2017",
-                    name: "软件工程01",
-                    peaple: "29",
-                },
-                {
-                    year: "2017",
-                    name: "软件工程02",
-                    peaple: "34",
-                },
-            ],
+            courses: [],
             selected: [],
         }),
+        created() {
+            this.fetch_data()
+        },
         methods: {
-            click_card: function() {
-                this.$router.push({ path: "input", query: { id: 1111 } })
+            click_card: function(course_id) {
+                this.$router.push({ path: "input", query: { course_id: course_id } })
             },
+            fetch_data: function() {
+                this.$axios
+                    .get('user/teacher/?username=' + this.username)
+                    .then(response => {
+                        console.log(response)
+                        this.courses = response.data.courses
+                    })
+            }
+        },
+        computed: {
+            username: function() {
+                return this.$store.state.username
+            }
         },
         mounted() {}
 

@@ -88,8 +88,17 @@ export default {
                 ]
             }
         ],
-        grades: []
+        grades: [],
+        course_id: undefined
     }),
+    created() {
+        this.course_id = this.$route.query.course_id
+        // this.$axios
+        //     .get('course/grades/?course_id=' + this.course_id)
+        //     .then(response => {
+
+        //     })
+    },
     methods: {
         submit() {
             this.done_student_number += 1
