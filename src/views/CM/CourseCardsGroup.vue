@@ -47,7 +47,7 @@
         }),
         methods: {
             clickCard: function () {
-                this.$router.push({path: 'list'})
+                this.$router.push({path: 'pending_review_list'})
             },
         }
     }

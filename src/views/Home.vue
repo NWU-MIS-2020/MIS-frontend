@@ -99,8 +99,8 @@ export default {
                 name: "课程负责人",
                 actions: [
                     {
-                        name: "查询负责课程",
-                        route: "cm/cards"
+                        name: "审核课程达成度",
+                        route: "cm/course_cards"
                     }
                 ]
                 
