@@ -35,10 +35,6 @@ const routes = [
         component: () => import('../views/CM/CourseCardsGroup')
       },
       {
-        path: 'cm/pending_review_list',
-        component: () => import('../views/CM/CourseManagerPendingReviewList')
-      },
-      {
         path: 'cm/review_page',
         component: () => import('../views/CM/CourseManagerReviewPage')
       },

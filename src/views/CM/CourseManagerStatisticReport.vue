@@ -42,7 +42,14 @@
                 <v-card class="pa-2" outlined tile>
                   <b>{{statistics.name}}</b>
                 </v-card>
-                <v-card class="pa-2" outlined tile>{{statistics.value}}</v-card>
+                <v-hover v-slot:default="{ hover }">
+                  <v-card
+                    class="pa-2"
+                    outlined
+                    tile
+                    :elevation="hover ? 12 : 2"
+                  ><font :color="getColor(statistics)">{{statistics.value}}</font></v-card>
+                </v-hover>
               </v-col>
             </template>
           </v-row>
@@ -74,13 +81,24 @@ export default {
     ],
     value: [0, 1, 2, 3, 4, 5, 20, 5, 4, 3, 2, 0],
     statistics: [
-      { name: "平均值", value: "0.78" },
-      { name: "及格率", value: "0.78" },
-      { name: "最大值", value: "0.78" },
-      { name: "最小值", value: "0.78" },
-      { name: "中位数", value: "0.78" }
+      { name: "平均值", value: 0.63 },
+      { name: "及格率", value: 0.78 },
+      { name: "最大值", value: 0.78 },
+      { name: "最小值", value: 0.78 },
+      { name: "中位数", value: 0.78 }
     ]
-  })
+  }),
+  methods: {
+    getColor: function(statistics) {
+      if (statistics.name === "平均值" || statistics.name === "中位数") {
+        if (statistics.value < 0.65) {
+          return "red";
+        } else {
+          return "black";
+        }
+      }
+    }
+  }
 };
 </script>
 
