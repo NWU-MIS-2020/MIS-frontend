@@ -66,6 +66,7 @@
                                     name="login"
                                     prepend-icon="mdi-person"
                                     type="text"
+                                    v-model="username"
                                 />
 
                                 <v-text-field
@@ -74,12 +75,13 @@
                                     name="password"
                                     prepend-icon="mdi-lock"
                                     type="password"
+                                    v-model="password"
                                 />
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer />
-                            <v-btn color="primary" to="home">Login</v-btn>
+                            <v-btn color="primary" @click="login">Login</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-col>
@@ -92,8 +94,21 @@
 export default {
     data() {
         return {
-            source: "123"
+            source: "123",
+            username: undefined,
+            password: undefined
         };
+    },
+    methods: {
+        login() {
+            this.$axios.post('user/login', {
+                username: this.username,
+                password: this.password
+            }).then((response) => {
+                console.log(response.data)
+                this.$router.push("home")
+            })
+        }
     }
 };
 </script>

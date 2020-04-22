@@ -1,6 +1,6 @@
 <template>
     <v-tabs>
-        <v-tab :to="item.route" v-for="(item, index) in items" :key="index" link>{{ item.text }}</v-tab>
+        <v-tab v-for="(item, index) in items" :key="index" :to="item.route" link>{{ item.text }}</v-tab>
         <v-tabs-items>
             <router-view />
         </v-tabs-items>
