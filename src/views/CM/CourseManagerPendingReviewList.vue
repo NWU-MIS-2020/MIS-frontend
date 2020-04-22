@@ -39,7 +39,7 @@
     }),
     methods: {
       ToDetails: function () {
-        this.$router.push({path: 'statistic_details'})
+        this.$router.push({path: 'review_page'})
       }
     }
   }

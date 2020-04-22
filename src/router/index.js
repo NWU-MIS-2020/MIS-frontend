@@ -41,16 +41,16 @@ const routes = [
         component: () => import('../views/tutor/Students.vue'),
       },
       {
-        path: 'cm/cards',
+        path: 'cm/course_cards',
         component: () => import('../views/CM/CourseCardsGroup')
       },
       {
-        path: 'cm/list',
-        component: () => import('../views/CM/CourseLeaderList')
+        path: 'cm/pending_review_list',
+        component: () => import('../views/CM/CourseManagerPendingReviewList')
       },
       {
-        path: 'cm/statistic_details',
-        component: () => import('../views/CM/CourseLeaderStatisticDetails')
+        path: 'cm/review_page',
+        component: () => import('../views/CM/CourseManagerReviewPage')
       },
       {
         path: 'student/inquire',
