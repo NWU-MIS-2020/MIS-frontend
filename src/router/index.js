@@ -21,8 +21,8 @@ const routes = [
         component: () => import('../views/HomeContent')
       },
       {
-        path: 'major_manager/structure',
-        component: () => import('../views/major_manager/Structure')
+        path: 'PM/structure',
+        component: () => import('../views/PM/Structure')
       },
       {
         path: 'teacher/select_course',

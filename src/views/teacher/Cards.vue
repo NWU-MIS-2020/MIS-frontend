@@ -51,7 +51,8 @@
             click_card: function() {
                 this.$router.push({ path: "input", query: { id: 1111 } })
             },
-        }
+        },
+        mounted() {}
 
     }
 </script>

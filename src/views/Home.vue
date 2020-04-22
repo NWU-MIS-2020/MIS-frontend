@@ -58,7 +58,7 @@
                         <v-list-item @click.stop="setting_dialog = true">
                             <v-list-item-title>设置</v-list-item-title>
                         </v-list-item>
-                        <v-list-item>
+                        <v-list-item @click="logout">
                             <v-list-item-title>退出</v-list-item-title>
                         </v-list-item>
                     </v-list>
@@ -90,9 +90,11 @@ export default {
     },
     data: () => ({
         drawer: null,
-        roles: [
+        roles: [],
+        roles_all: [
             {
                 name: "学生",
+                name_en: "student",
                 actions: [
                     {
                         name: "查询个人毕业要求达成度",
@@ -106,6 +108,7 @@ export default {
             },
             {
                 name: "教师",
+                name_en: "teacher",
                 actions: [
                     {
                         name: "录入达成度指标点",
@@ -115,6 +118,7 @@ export default {
             },
             {
                 name: "导员",
+                name_en: "tutor",
                 actions: [
                     {
                         name: "查询学生毕业要求达成度",
@@ -124,6 +128,7 @@ export default {
             },
             {
                 name: "课程负责人",
+                name_en: "CM",
                 actions: [
                     {
                         name: "审核负责课程",
@@ -133,10 +138,11 @@ export default {
             },
             {
                 name: "专业负责人",
+                name_en: "PM",
                 actions: [
                     {
                         name: "格式化培养方案",
-                        route: "major_manager/structure"
+                        route: "PM/structure"
                     }
                 ]
             }
@@ -144,7 +150,31 @@ export default {
         setting_dialog: false,
         messgaes: ["这是一条测试信息。", "这是第二条测试信息。"]
     }),
-    mounted() {},
-    methods: {}
+    created() {
+        this.$axios
+            .get("user/groups/")
+            .then(response => {
+                let role = response.data.groups.map(role => role.name);
+                this.$store.commit("set_role", role);
+            })
+            .then(() => {
+                // for (let i of this.roles_all) {
+                //     if (this.actual_role.find(name => name == i.name_en)) {
+                //         this.roles.push(i);
+                //     }
+                // }
+            });
+        this.roles = this.roles_all;
+    },
+    computed: {
+        actual_role: function() {
+            return this.$store.state.role;
+        }
+    },
+    methods: {
+        logout: function() {
+            this.$router.push('/')
+        }
+    }
 };
 </script>
