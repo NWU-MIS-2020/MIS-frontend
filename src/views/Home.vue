@@ -97,7 +97,11 @@ export default {
                 name_en: "student",
                 actions: [
                     {
-                        name: "查询个人毕业要求达成度",
+                        name: "查询个人课程达成度",
+                        route: "student/inquire2"
+                    },
+                    {
+                        name: "查询个人预测值达成度",
                         route: "student/inquire"
                     },
                     {

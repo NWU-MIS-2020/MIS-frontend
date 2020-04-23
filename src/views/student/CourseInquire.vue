@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      指标点评价值预测结果
+      课程预测结果
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -26,13 +26,13 @@
             details: [],
             headers: [
           {
-            text: '毕业要求',
+            text: '课程名',
             align: 'start',
-            value: 'rough_id',
+            value: 'name',
           },
-          { text: '指标点', value: 'detail_id' },
-          { text: '预测评价值', value: 'indicator' },/* 
-          { text: '审核人', value: 'people' }, */
+          { text: '节课分数', value: 'final_marks' },
+          { text: '指标值', value: 'indicator' },
+          { text: '审核人', value: 'cm_name' }, 
         ],
         }),
         created() {
@@ -44,8 +44,7 @@
                     .get('user/student/?username=' + this.username)
                     .then(response => {
                         console.log(response)
-                        console.log(response.data.prediction)
-                        this.details = response.data.prediction
+                        this.details = response.data.grades
                     })
             }
         },
