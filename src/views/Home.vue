@@ -159,6 +159,8 @@ export default {
         messgaes: ["这是一条测试信息。", "这是第二条测试信息。"]
     }),
     created() {
+        let token = localStorage.getItem('token')
+        this.$axios.defaults.headers = {'Authorization': token}
         this.$axios
             .get("user/groups/")
             .then(response => {
@@ -183,6 +185,7 @@ export default {
     },
     methods: {
         logout: function() {
+            localStorage.setItem('token', '')
             this.$router.push('/')
         }
     }

@@ -90,12 +90,16 @@ export default {
             rough_requirement: "",
             detailed_requirement: "",
             offering_course: "",
-            factor: 0
+            factor: 0,
+            target: 'null',
+            field_of_study: ''
         },
         defaultItem: {
             detailed_requirement: "",
             offering_course: "",
-            factor: 0
+            factor: 0,
+            target: 'null',
+            field_of_study: ''
         }
     }),
 
@@ -148,7 +152,7 @@ export default {
             if (this.editedIndex > -1) {
                 this.$axios
                     .put('plan/indicator_factors/', {
-                        indicator_factors: this.editedItem
+                        indicator_factors: [this.editedItem]
                     })
                     .then(response => {
                         console.log(response)
@@ -158,7 +162,7 @@ export default {
             } else {
                 this.$axios
                     .post('plan/indicator_factors/', {
-                        indicator_factors: this.editedItem
+                        indicator_factors: [this.editedItem]
                     })
                     .then(response => {
                         console.log(response)
