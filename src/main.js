@@ -7,7 +7,10 @@ import axios from 'axios'
 
 Vue.prototype.$axios = axios
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://rap2.taobao.org:38080/app/mock/251395/'; // mock 地址
+// axios.defaults.baseURL = 'http://rap2.taobao.org:38080/app/mock/251395/'; // mock 地址
+axios.defaults.baseURL = 'http://mis.zhangjunbo.top/'
+// axios.defaults.xsrfCookieName = 'token'
+// axios.defaults.xsrfHeaderName = 'Authorization' // default
 
 Vue.config.productionTip = false
 

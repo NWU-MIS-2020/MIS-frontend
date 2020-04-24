@@ -13,16 +13,24 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'Home',
     component: Home,
     children: [
       {
         path: '',
+        name: 'Home',
         component: () => import('../views/HomeContent')
       },
       {
         path: 'PM/structure',
         component: () => import('../views/PM/Structure')
+      },
+      {
+        path: 'PM/matrix',
+        component: () => import('../views/PM/Matrix')
+      },
+      {
+        path: 'PM/course',
+        component: () => import('../views/PM/Course')
       },
       {
         path: 'teacher/select_course',
