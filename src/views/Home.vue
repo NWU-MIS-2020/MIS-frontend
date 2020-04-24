@@ -141,8 +141,16 @@ export default {
                 name_en: "PM",
                 actions: [
                     {
-                        name: "格式化培养方案",
+                        name: "修改毕业要求指标点",
                         route: "PM/structure"
+                    },
+                    {
+                        name: "修改支撑矩阵",
+                        route: "PM/matrix"
+                    },
+                    {
+                        name: "修改开设课程",
+                        route: "PM/course"
                     }
                 ]
             }

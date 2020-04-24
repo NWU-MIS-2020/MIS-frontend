@@ -54,14 +54,12 @@
             </template>
             <template v-slot:no-data>暂无数据</template>
             <template v-slot:expanded-item="{ headers, item }">
-                <td
-                    v-for="detail in item.detailed_requirements"
-                    :key="detail.index"
-                    :colspan="headers.length"
-                >
-                {{ detail.index }}: {{ detail.description }}
-                <!-- {{detail}} -->
-                </td>
+                <tr v-for="detail in item.detailed_requirements" :key="detail.index">
+                    <td>{{ detail.index }}:</td>
+                    <td>{{ detail.description }}</td>
+                    <td><v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon></td>
+                    <!-- {{detail}} -->
+                </tr>
             </template>
         </v-data-table>
     </div>
@@ -80,7 +78,8 @@ export default {
                 value: "index"
             },
             { text: "毕业要求", value: "description" },
-            { text: "操作", value: "actions", sortable: false }
+            { text: "操作", value: "actions", sortable: false },
+            { text: "", value: "data-table-expand" }
         ],
         editedIndex: -1,
         editedItem: {
@@ -102,7 +101,6 @@ export default {
         this.$axios.get("plan/requirements/").then(response => {
             this.requirements = response.data.rough_requirements;
         });
-        this.initialize();
     },
     computed: {
         formTitle() {
@@ -116,18 +114,6 @@ export default {
         }
     },
     methods: {
-        initialize() {
-            this.desserts = [
-                {
-                    name: "Frozen Yogurt",
-                    calories: 159,
-                    fat: 6.0,
-                    carbs: 24,
-                    protein: 4.0
-                }
-            ];
-        },
-
         editItem(item) {
             this.editedIndex = this.requirements.indexOf(item);
             this.editedItem = Object.assign({}, item);
@@ -150,7 +136,10 @@ export default {
 
         save() {
             if (this.editedIndex > -1) {
-                Object.assign(this.requirements[this.editedIndex], this.editedItem);
+                Object.assign(
+                    this.requirements[this.editedIndex],
+                    this.editedItem
+                );
             } else {
                 this.requirements.push(this.editedItem);
             }

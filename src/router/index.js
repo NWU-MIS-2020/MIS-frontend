@@ -25,6 +25,14 @@ const routes = [
         component: () => import('../views/PM/Structure')
       },
       {
+        path: 'PM/matrix',
+        component: () => import('../views/PM/Matrix')
+      },
+      {
+        path: 'PM/course',
+        component: () => import('../views/PM/Course')
+      },
+      {
         path: 'teacher/select_course',
         component: () => import('../views/teacher/Cards')
       },

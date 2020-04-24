@@ -101,11 +101,13 @@ export default {
     },
     methods: {
         login() {
-            this.$axios.post('user/login', {
+            this.$axios.post('user/login/', {
                 username: this.username,
                 password: this.password
             }).then((response) => {
                 console.log(response.data)
+                this.$axios.defaults.headers = {'Authorization': response.data.token}
+                localStorage.setItem('token', response.data.token)
                 this.$router.push("home")
             })
         }

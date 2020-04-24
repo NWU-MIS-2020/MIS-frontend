@@ -5,9 +5,9 @@
         </v-row>
         <v-row>
             <h2>第 {{done_student_number}} / {{all_student_number}} 位学生</h2>
-            姓名：TODO
+            姓名：{{input_grades.student.name}}
         </v-row>
-        <v-card v-for="(format, i) in formats" :key="i">
+        <v-card v-for="(format, i) in input_grades.indicator_marks" :key="i">
             <v-card-title>指标点 {{i}}</v-card-title>
             <v-list-item two-line>
                 <v-list-item-content>
@@ -18,7 +18,7 @@
             <v-list-item two-line>
                 <v-list-item-content>
                     <v-list-item-title>毕业要求指标点</v-list-item-title>
-                    <v-list-item-subtitle>{{format.detailed_requirement.id}}</v-list-item-subtitle>
+                    <v-list-item-subtitle>{{format.indicator_factor}}</v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
 
@@ -26,14 +26,14 @@
                 <template v-slot:activator>
                     <v-list-item-title>评价依据</v-list-item-title>
                 </template>
-                <v-list-item v-for="(rule, i) in format.bases" :key="i">
-                    <v-list-item-title>{{rule.name}}</v-list-item-title>
+                <v-list-item v-for="(rule, i) in format.detailed_marks" :key="i">
+                    <v-list-item-title>{{rule.basis.name}}</v-list-item-title>
                     <v-list-item-subtitle>
                         <v-row>
                             <v-col>
-                                <v-text-field v-model="input_grades.grades.indicator_marks.detailed_marks[i]" label="分值"></v-text-field>
+                                <v-text-field v-model="rule.marks" label="分值"></v-text-field>
                             </v-col>
-                            <v-col>/{{rule.full_marks}}分</v-col>
+                            <v-col>/{{rule.basis.full_marks}}分</v-col>
                         </v-row>
                     </v-list-item-subtitle>
                 </v-list-item>
@@ -54,7 +54,7 @@ export default {
         offering_course: undefined, //开设课程的数据
         loading: true,
         undone_student: [],
-        input_grades: {grades: {indicator_marks:{detailed_marks:[]}}}, //表单成绩
+        input_grades: { grades: { indicator_marks: { detailed_marks: [] } } } //表单成绩
     }),
     created() {
         this.course_id = this.$route.query.course_id;
@@ -81,34 +81,59 @@ export default {
                         console.log(this.formats);
                     });
                 this.$axios
-                    .get('course/grades/?course_id' + this.course_id)
+                    .get("course/grades/?course_id" + this.course_id)
                     .then(response => {
-                        this.grades = response.data.grades
+                        this.grades = response.data.grades;
                         for (let student of this.course.students) {
-                            if (this.done_students_username.find(student.username) == false) {
-                                this.undone_student.push(student)
+                            if (
+                                this.done_students_username.find(
+                                    student.username
+                                ) == false
+                            ) {
+                                this.undone_student.push(student);
                             }
                         }
+                    });
+                // 先新建再查成绩
+                this.$axios
+                    .post("course/grades/", {
+                        student: "123"
                     })
-                this.loading = false
+                    .then(response => {
+                        let id = response.data.grades[0].id;
+                        this.$axios
+                            .get("course/grades/?id=" + id)
+                            .then(response => {
+                                this.input_grades = response.data.grades[0]; // 注意grades是个array
+                            });
+                        this.loading = false;
+                    });
             });
     },
     computed: {
         all_student_number() {
-            return this.course.students.length
+            return this.course.students.length;
         },
         done_student_number() {
-            return this.grades.length
+            return this.grades.length;
         },
         done_students_username() {
-            return this.grades.map(x => x.student.username)
+            return this.grades.map(x => x.student.username);
         }
     },
     methods: {
         submit() {
-            this.done_student_number += 1;
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+            let grades = [this.input_grades];
+            this.$axios
+                .put("course/grades/", {
+                    grades: grades
+                })
+                .then(response => {
+                    console.log(response);
+                    alert("添加成功");
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                });
         }
     }
 };
