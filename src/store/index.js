@@ -27,8 +27,7 @@ export default new Vuex.Store({
           { indexNo: "2-3", list: [0.3, 0.4, 0.9, 0.6, 0.6] }
         ]
       }
-    ],
-    currentEvalutionValue: undefined
+    ]
   },
   mutations: {
     set_role(state, role) {
@@ -42,9 +41,6 @@ export default new Vuex.Store({
     },
     set_evalution_values(state, evalutionValues) {
       state.evalutionValues = evalutionValues
-    },
-    set_current_evalution_value(state, currentEvalutionValue) {
-      state.currentEvalutionValue = currentEvalutionValue
     }
   },
   actions: {

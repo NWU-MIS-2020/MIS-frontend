@@ -27,7 +27,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="green darken-1" text @click="passDialog = false">取消</v-btn>
-                            <v-btn color="green darken-1" text @click="passDialog = false">确定</v-btn>
+                            <v-btn color="green darken-1" text @click="acceptPassDialog()">确定</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -71,18 +71,34 @@
 
 <script>
 import CourseManagerStatisticCard from "./CourseManagerStatisticCard.vue";
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 export default {
     components: { CourseManagerStatisticCard },
     data: () => ({
         defaultFocus: 0,
         passDialog: false,
-        failDialog: false
+        failDialog: false,
+        currentEvalutionValue: JSON.parse(
+            sessionStorage.getItem("currentEvalutionValue")
+        )
     }),
-    computed: {
-        ...mapState(["currentEvalutionValue"])
-    },
+    // computed: {
+    //     ...mapState(["currentEvalutionValue"])
+    // },
     methods: {
+        acceptPassDialog: function() {
+            let index = sessionStorage.getItem("currentIndex");
+            let evaluationValues = JSON.parse(
+                sessionStorage.getItem("evaluationValues")
+            );
+            evaluationValues.splice(parseInt(index), 1);
+            sessionStorage.setItem(
+                "evaluationValues",
+                JSON.stringify(evaluationValues)
+            );
+            this.passDialog = false;
+            this.$router.push({ path: "course_cards" });
+        },
         calculateStatistics: function(item) {
             let compare = function(a, b) {
                 //比较函数
@@ -123,7 +139,9 @@ export default {
                 else if (0.9 <= value <= 1.0) counter90++;
             }
             return {
-                courseName: this.currentEvalutionValue.courseName,
+                courseName: JSON.parse(
+                    sessionStorage.getItem("currentEvalutionValue")
+                ).courseName,
                 indexNo: item.indexNo,
                 distribution: [
                     0,

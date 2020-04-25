@@ -38,7 +38,7 @@
                                                 <v-list-item
                                                     v-for="(item, i) in loadPendingReviewList(course.courseName)"
                                                     :key="i"
-                                                    @click="toReviewPage(item)"
+                                                    @click="toReviewPage(item, i)"
                                                 >
                                                     <v-list-item-content>
                                                         <v-list-item-title v-text="i+1"></v-list-item-title>
@@ -91,14 +91,43 @@ export default {
                 score: "4"
             }
         ],
-        defaultFocus: 0
+        defaultFocus: 0,
+        // evaluationValues: JSON.parse(sessionStorage.getItem("evaluationValues"))
     }),
     methods: {
-        toReviewPage: function(item) {
+        toReviewPage: function(item, i) {
+            sessionStorage.setItem(
+                "currentEvalutionValue",
+                JSON.stringify(item)
+            );
+            sessionStorage.setItem("currentIndex", i);
             this.$router.push({ path: "review_page" });
-            this.$store.commit("set_current_evalution_value", item);
         },
         loadPendingReviewList: function(courseName) {
+            // let evaluationValues = [
+            //     {
+            //         courseName: "软件工程",
+            //         teacherName: "王二小",
+            //         values: [
+            //             { indexNo: "1-1", list: [0.1, 0.2, 0.3, 0.4, 0.5] },
+            //             { indexNo: "1-2", list: [0.6, 0.2, 0.7, 0.4, 0.9] },
+            //             { indexNo: "1-3", list: [0.2, 0.5, 0.8, 0.3, 0.2] }
+            //         ]
+            //     },
+            //     {
+            //         courseName: "软件工程",
+            //         teacherName: "李小三",
+            //         values: [
+            //             { indexNo: "2-1", list: [0.2, 0.1, 0.4, 0.3, 0.1] },
+            //             { indexNo: "2-2", list: [0.7, 0.1, 0.8, 0.2, 0.4] },
+            //             { indexNo: "2-3", list: [0.3, 0.4, 0.9, 0.6, 0.6] }
+            //         ]
+            //     }
+            // ];
+            // sessionStorage.setItem(
+            //     "evaluationValues",
+            //     JSON.stringify(evaluationValues)
+            // );
             let listLength = this.evaluationValues.length;
             let result = [];
             for (let i = 0; i < listLength; i++) {
