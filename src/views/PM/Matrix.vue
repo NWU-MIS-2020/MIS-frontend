@@ -45,10 +45,7 @@
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="12" sm="6" md="4">
-                                        <v-text-field
-                                            v-model="editedItem.factor"
-                                            label="相关系数"
-                                        ></v-text-field>
+                                        <v-text-field v-model="editedItem.factor" label="相关系数"></v-text-field>
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -106,7 +103,10 @@ export default {
     computed: {
         formTitle() {
             return this.editedIndex === -1 ? "新建" : "修改";
-        }
+        },
+        requirements() {
+            return this.$store.state.requirements
+        },
     },
 
     watch: {
@@ -122,9 +122,6 @@ export default {
         this.$axios.get("plan/offering_courses/").then(response => {
             this.offering_courses = response.data.offering_courses;
         });
-        this.$axios.get("plan/requirements/").then(response => {
-            this.requirements = response.data.rough_requirements;
-        });
     },
 
     methods: {
@@ -136,8 +133,17 @@ export default {
 
         deleteItem(item) {
             const index = this.matrix.indexOf(item);
-            confirm("Are you sure you want to delete this item?") &&
-                this.matrix.splice(index, 1);
+            if (confirm("确定要删除吗?")) {
+                this.$axios
+                    .delete('plan/indicator_factors/', {
+                        id: item.id
+                    })
+                    .then(response => {
+                        console.log(response)
+                        alert("Done")
+                        this.matrix.splice(index, 1);
+                    })
+            }
         },
 
         close() {

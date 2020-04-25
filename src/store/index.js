@@ -5,9 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    role: undefined,
-    name: undefined,
+    role: undefined, // 角色
+    name: undefined, // 姓名
     username: undefined,
+    requirements: undefined, // 毕业要求及指标点
     evaluationValues: [
       {
         courseName: "软件工程",
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     },
     set_evalution_values(state, evalutionValues) {
       state.evalutionValues = evalutionValues
+    },
+    set_requirements(state, requirements) {
+      state.requirements = requirements
     }
   },
   actions: {
