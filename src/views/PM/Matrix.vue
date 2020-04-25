@@ -28,7 +28,7 @@
                                     </v-col>
                                     <v-col cols="12" sm="6" md="4">
                                         <v-select
-                                            :items="requirements.find(req => req.id == editedItem.rough_requirement)"
+                                            :items="requirements.find(req => req.id == editedItem.rough_requirement).detailed_requirements"
                                             item-text="description"
                                             item-value="id"
                                             v-model="editedItem.detailed_requirement"
@@ -53,8 +53,8 @@
 
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                            <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                            <v-btn color="blue darken-1" text @click="close">取消</v-btn>
+                            <v-btn color="blue darken-1" text @click="save">保存</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -74,17 +74,16 @@ export default {
         dialog: false,
         headers: [
             { text: "序号", align: "start", value: "id" },
-            { text: "指标点", value: "detailed_requirement.description" },
+            { text: "指标点", value: "detailed_requirement" },
             { text: "课程", value: "offering_course.name" },
             { text: "相关系数", value: "factor" },
             { text: "操作", value: "actions", sortable: false }
         ],
         matrix: [],
         offering_courses: [],
-        requirements: [],
         editedIndex: -1,
         editedItem: {
-            rough_requirement: "",
+            rough_requirement: 1,
             detailed_requirement: "",
             offering_course: "",
             factor: 0,
@@ -126,6 +125,7 @@ export default {
 
     methods: {
         editItem(item) {
+            console.log(item)
             this.editedIndex = this.matrix.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.dialog = true;
@@ -164,6 +164,7 @@ export default {
                         console.log(response)
                         alert('修改成功')
                         Object.assign(this.matrix[this.editedIndex], this.editedItem);
+                        this.close();
                     })
             } else {
                 this.$axios
@@ -174,9 +175,10 @@ export default {
                         console.log(response)
                         alert('添加成功')
                         this.matrix.push(this.editedItem);
+                        this.close();
                     })
             }
-            this.close();
+            
         }
     }
 };

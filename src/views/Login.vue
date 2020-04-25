@@ -109,7 +109,16 @@ export default {
                 console.log(response.data)
                 localStorage.setItem('token', response.data.token)
                 this.$router.push("home")
+            }).catch(error => {
+                if (error.response.status == 400) {
+                    alert("用户名或密码错误")
+                }
+                else {
+                    alert("未知错误")
+                }
+                console.log(error.response)
             })
+            
         }
     }
 };
