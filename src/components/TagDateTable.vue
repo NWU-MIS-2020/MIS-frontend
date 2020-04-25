@@ -9,7 +9,7 @@
       v-for="(item, index) in items" :key="index" :to="{name: item.route}" exact-active-class="router-link-exact-active"
       
     >
-    <v-row align="center" v-if="item.indicator<0.65">
+    <v-row align="center" v-if="item.indicator<0.65&&item.indicator>0">
         <v-col class="grow">您的课程：{{item.name}}  评价值低于预警阈值，点击后方按钮了解详情</v-col>
         <v-col class="shrink">
           <v-btn @click="gotolink(item.route)">查看详情</v-btn>

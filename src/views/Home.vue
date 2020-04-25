@@ -107,7 +107,11 @@ export default {
                     {
                         name: "查询个人毕业要求达成度预警",
                         route: "student/alarm"
-                    }
+                    },
+                    {
+                        name: "查询个人达成度统计情况",
+                        route: "student/statistis"
+                    },
                 ]
             },
             {

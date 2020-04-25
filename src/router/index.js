@@ -65,6 +65,10 @@ const routes = [
         component: () => import('../views/student/CourseInquire.vue'),
       },
       {
+        path: 'student/statistis',
+        component: () => import('../views/student/StudentStatistics.vue'),
+      },
+      {
         path: 'details',
         name: 'details',
         component: () => import('../views/student/Details.vue'),
