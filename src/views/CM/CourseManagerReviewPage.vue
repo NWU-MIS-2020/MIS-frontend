@@ -178,7 +178,7 @@ export default {
                     counter89,
                     counter90
                 ],
-                list: [
+                list: [ 
                     { name: "平均值", value: (sum / length).toFixed(2) },
                     {
                         name: "及格率",
