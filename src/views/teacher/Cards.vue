@@ -30,7 +30,7 @@
 
                 <v-dialog v-model="dialog" max-width="520px">
                     <v-btn color="primary" @click="add_grade">新增评价值</v-btn>
-                    <v-btn color="primary" @click="modify_grade">修改评价值</v-btn>
+                    <v-btn color="primary" :to="'/home/teacher/modify/?course_id=' + edit_course_id">修改评价值</v-btn>
                 </v-dialog>
             </v-col>
         </v-row>

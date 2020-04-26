@@ -31,8 +31,9 @@
             },
         },
         created() {
+            // 查询班级信息
             this.$axios
-                .get('user/tutor/?username=' + this.username)
+                .get('/user/squads/' + this.username)
                 .then(response => {
                     this.classes = response.data.squad
                 })

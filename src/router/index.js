@@ -41,6 +41,10 @@ const routes = [
         component: () => import('../views/teacher/InputGrades')
       },
       {
+        path: 'teacher/modify',
+        component: () => import('../views/teacher/ModifyGrades')
+      },
+      {
         path: 'tutor/cards',
         component: () => import('../views/tutor/Cards.vue'),
       },
