@@ -69,6 +69,18 @@ const routes = [
         component: () => import('../views/student/RightInquire.vue'),
       },
       {
+        path: 'student/inquire2',
+        component: () => import('../views/student/Course.vue'),
+      },
+      {
+        path: 'student/statistis',
+        component: () => import('../views/student/StudentStatistics.vue'),
+      },
+      {
+        path: 'student/courseDetails',
+        component: () => import('../views/student/CourseInquire.vue'),
+      },
+      {
         path: 'details',
         name: 'details',
         component: () => import('../views/student/Details.vue'),
@@ -76,9 +88,9 @@ const routes = [
       {
         path: 'student/alarm',
         component: () => import('../views/student/Alarm.vue'),
-        redirect: 'student/alarm/alarm1',
+        redirect: 'student/alarm/alarm2',
         children: [
-          {
+          /* {
             path: 'alarm1',
             component: () => import('../components/TagDateTable.vue'),
             children: [
@@ -87,7 +99,7 @@ const routes = [
                 name: '1',
                 component: () => import('../components/Table.vue'),
               },]
-          },
+          }, */
 
           {
             path: 'alarm2',

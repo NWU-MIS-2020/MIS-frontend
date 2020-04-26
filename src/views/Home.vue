@@ -97,13 +97,21 @@ export default {
                 name_en: "student",
                 actions: [
                     {
-                        name: "查询个人毕业要求达成度",
-                        route: "student/inquire"
+                        name: "查询个人课程达成度",
+                        route: "student/inquire2"
                     },
                     {
+                        name: "查询个人预测值达成度以及预警",
+                        route: "student/inquire"
+                    },
+                    /* {
                         name: "查询个人毕业要求达成度预警",
                         route: "student/alarm"
-                    }
+                    }, */
+                    {
+                        name: "查询个人达成度统计情况",
+                        route: "student/statistis"
+                    },
                 ]
             },
             {
@@ -188,6 +196,7 @@ export default {
                     }
                 }
             });
+        
         this.$axios.get("plan/requirements/").then(response => {
             this.$store.commit(
                 "set_requirements",
@@ -199,6 +208,12 @@ export default {
     computed: {
         actual_role: function() {
             return this.$store.state.role;
+        },
+        role: function () {
+            return this.$store.state.role
+        },
+        name: function() {
+            return this.$store.state.name
         }
     },
     methods: {
