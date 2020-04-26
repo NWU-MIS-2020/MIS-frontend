@@ -76,6 +76,8 @@
             align: 'start',
             value: 'offering_course.name',
           },
+          { text: '开课时间', value: 'start_date' },
+          { text: '结课时间', value: 'end_date' },
           { text: '审核状态', value: 'review_status' },
           { text: '审核人', value: 'teachers[0].name' }, 
           { text: 'Actions', value: 'actions', sortable: false },
@@ -106,13 +108,12 @@
                 this.$axios
                     .get('course/courses/?student_username=' + this.username)
                     .then(response => {
-                        console.log(response)
+                        console.log(response.data.courses)
                         this.desserts=response.data.courses
-                        console.log(this.details)
                     })
                     
             },
-      click_botton: function(course_id) {
+        click_botton: function(course_id) {
                 this.$router.push({ path: "courseDetails", query: { course_id: course_id } })
             },
       editItem (item) {

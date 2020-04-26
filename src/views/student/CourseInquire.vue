@@ -1,5 +1,52 @@
 <template>
-  <v-card>
+<v-container >
+  <v-col cols="12">
+        <!-- <v-card>
+          <v-list-item two-line>
+                <v-list-item-content>
+                    <v-list-item-title>课程名：{{offering_course_name}}</v-list-item-title>
+                    <v-list-item-subtitle>最终成绩：{{final_marks}}</v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
+
+        </v-card> -->
+        <v-card
+  >
+    <v-toolbar
+      color="indigo"
+      dark
+    >
+    
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+      <v-toolbar-title>课程详情页</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <v-list>
+      <v-list-item
+      >
+        <v-list-item-icon>
+          <v-icon  color="pink">mdi-star</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title >课程名：{{offering_course_name}}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+      >
+        <v-list-item-icon>
+          <v-icon  color="pink">mdi-star</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title >最终成绩：{{final_marks}}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </v-card>
+  </v-col>
+  <v-col cols="12">
+        <v-card>
     <v-card-title>
       课程预测结果
       <v-spacer></v-spacer>
@@ -17,13 +64,17 @@
       :search="search"
     >
     </v-data-table>
-  </v-card>
+  </v-card></v-col>
+    </v-container>
+  
 </template>
 
 <script>
   export default {
     data: () => ({
             search: '',
+            final_marks: '',
+            offering_course_name: '',
             details: [{
               /* offering_course_name: '', */
             }
@@ -33,28 +84,45 @@
           {
             text: '课程名',
             align: 'start',
-            value: 'offering_course.name',
+            value: 'indicator_factor',
           },
-          { text: '支撑课程', value: '' },
+          { text: '加权平均分', value: 'total_marks' },/* 
           { text: '加权平均分', value: 'review_status' },
-          { text: '成绩', value: 'teachers[0].name' }, 
+          { text: '成绩', value: 'teachers[0].name' },  */
         ],
           course_id: undefined, //历史课程id
           course: undefined, //历史课程的数据
         }),
         created() {
             this.course_id = this.$route.query.course_id;
-            this.input_grades.grades.course = this.course_id;
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!"),
+            this.fetch_data()
             /* console.log(this.course_id) */
-            console.log(this.username)
+            /* console.log(this.username)
             this.$axios
                     .get('course/grades/?username=' + this.username)
                     .then(response => {
                         console.log(response)
                         this.details = response.data.grades
-                    })
+                    }) */
+
         },
         methods: {
+          fetch_data: function() {
+                this.$axios
+                    .get('course/grades/?student_username=' + this.username)
+                    .then(response => {
+                      let indicator_marks = response.data.grades.map(indicator_marks => indicator_marks.indicator_marks);
+                        console.log(response.data.grades)
+                        this.offering_course_name = response.data.grades[0].course.offering_course.name
+                        this.final_marks = response.data.grades[0].final_marks
+                        console.log(this.offering_course_name)
+                        for(let i=0;i<indicator_marks.length;i++){
+                          this.details = indicator_marks[i];
+                          console.log(this.details)
+                        }
+                    })
+            }
             },
         computed: {
             username: function() {

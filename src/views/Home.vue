@@ -101,13 +101,13 @@ export default {
                         route: "student/inquire2"
                     },
                     {
-                        name: "查询个人预测值达成度",
+                        name: "查询个人预测值达成度以及预警",
                         route: "student/inquire"
                     },
-                    {
+                    /* {
                         name: "查询个人毕业要求达成度预警",
                         route: "student/alarm"
-                    },
+                    }, */
                     {
                         name: "查询个人达成度统计情况",
                         route: "student/statistis"

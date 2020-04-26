@@ -80,9 +80,9 @@ const routes = [
       {
         path: 'student/alarm',
         component: () => import('../views/student/Alarm.vue'),
-        redirect: 'student/alarm/alarm1',
+        redirect: 'student/alarm/alarm2',
         children: [
-          {
+          /* {
             path: 'alarm1',
             component: () => import('../components/TagDateTable.vue'),
             children: [
@@ -91,7 +91,7 @@ const routes = [
                 name: '1',
                 component: () => import('../components/Table.vue'),
               },]
-          },
+          }, */
 
           {
             path: 'alarm2',

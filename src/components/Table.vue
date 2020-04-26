@@ -15,7 +15,11 @@
       :headers="headers"
       :items="details"
       :search="search"
-    ></v-data-table>
+    >
+    <template v-slot:item.is_lt_wil="{ item }">
+      <v-chip :color="getColor(item.is_lt_wil)" dark></v-chip>
+    </template>
+    </v-data-table>
   </v-card>
 </template>
 
@@ -24,14 +28,15 @@
     data: () => ({
             search: '',
             details: [],
+            flag:'',
             headers: [
           {
-            text: '指标点的id值',
+            text: '指标点编号',
             align: 'start',
-            value: 'rough_requirement_id',
+            value: 'rough_requirement_index',
           },
           { text: '预测评价值', value: 'indicator' },
-          { text: '是否低于阈值', value: 'is_lt_wil' },/* 
+          { text: '预警', value: 'is_lt_wil' }/* 
           { text: '审核人', value: 'people' }, */
         ],
         }),
@@ -47,10 +52,18 @@
                         console.log(rough_pre)
                         for(let i=0;i<rough_pre.length;i++){
                           this.details = rough_pre[i]
+                          console.log(rough_pre[i])
                         }
                           
                     })
-            }
+            },
+            getColor: function(calories)  {
+                if (calories) {
+                  return 'red'}
+                else{
+                  return 'green'} 
+      },
+            
         },
         computed: {
             username: function() {
