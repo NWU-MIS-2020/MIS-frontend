@@ -29,10 +29,17 @@
             </v-card-text>
             <!-- 分割线 -->
             <v-card-text class="pt-0">
-                <div>
+                <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                <div v-on="on">
                     <b>{{statistics.courseName}}</b>对应指标点
                     <b>{{statistics.indexNo}}</b>的达成度
                 </div>
+                </template>
+                    <span>
+                        {{statistics.indexNo}}：{{statistics.indexContent}}
+                    </span>
+                </v-tooltip>
                 <v-divider class="my-2"></v-divider>
                 <!-- 统计量 -->
                 <template>
