@@ -209,12 +209,6 @@ export default {
         actual_role: function() {
             return this.$store.state.role;
         },
-        role: function () {
-            return this.$store.state.role
-        },
-        name: function() {
-            return this.$store.state.name
-        }
     },
     methods: {
         logout: function() {
