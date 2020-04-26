@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="padding: 20px">
         <v-text-field v-model="student_username" label="学号"></v-text-field>
         <v-btn color="primary" @click="query">查询</v-btn>
         <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
