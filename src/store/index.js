@@ -45,7 +45,7 @@ export default new Vuex.Store({
     },
     set_requirements(state, requirements) {
       state.requirements = requirements
-    }
+    },
   },
   actions: {
   },

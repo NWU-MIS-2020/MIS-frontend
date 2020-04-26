@@ -15,7 +15,8 @@
       :headers="headers"
       :items="details"
       :search="search"
-    ></v-data-table>
+    >
+    </v-data-table>
   </v-card>
 </template>
 
@@ -23,31 +24,38 @@
   export default {
     data: () => ({
             search: '',
-            details: [],
+            details: [{
+              /* offering_course_name: '', */
+            }
+            ],
+            
             headers: [
           {
             text: '课程名',
             align: 'start',
-            value: 'name',
+            value: 'offering_course.name',
           },
-          { text: '节课分数', value: 'final_marks' },
-          { text: '指标值', value: 'indicator' },
-          { text: '审核人', value: 'cm_name' }, 
+          { text: '支撑课程', value: '' },
+          { text: '加权平均分', value: 'review_status' },
+          { text: '成绩', value: 'teachers[0].name' }, 
         ],
+          course_id: undefined, //历史课程id
+          course: undefined, //历史课程的数据
         }),
         created() {
-            this.fetch_data()
-        },
-        methods: {
-            fetch_data: function() {
-                this.$axios
-                    .get('user/student/?username=' + this.username)
+            this.course_id = this.$route.query.course_id;
+            this.input_grades.grades.course = this.course_id;
+            /* console.log(this.course_id) */
+            console.log(this.username)
+            this.$axios
+                    .get('course/grades/?username=' + this.username)
                     .then(response => {
                         console.log(response)
                         this.details = response.data.grades
                     })
-            }
         },
+        methods: {
+            },
         computed: {
             username: function() {
                 return this.$store.state.username

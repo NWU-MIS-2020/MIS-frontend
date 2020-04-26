@@ -26,12 +26,12 @@
             details: [],
             headers: [
           {
-            text: '毕业要求',
+            text: '指标点的id值',
             align: 'start',
-            value: 'rough_id',
+            value: 'rough_requirement_id',
           },
-          { text: '指标点', value: 'detail_id' },
-          { text: '预测评价值', value: 'indicator' },/* 
+          { text: '预测评价值', value: 'indicator' },
+          { text: '是否低于阈值', value: 'is_lt_wil' },/* 
           { text: '审核人', value: 'people' }, */
         ],
         }),
@@ -41,11 +41,14 @@
         methods: {
             fetch_data: function() {
                 this.$axios
-                    .get('user/student/?username=' + this.username)
+                    .get('prediction/detailed_predictions/?student_username=' + this.username)
                     .then(response => {
-                        console.log(response)
-                        console.log(response.data.prediction)
-                        this.details = response.data.prediction
+                        let rough_pre = response.data.students.map(rough_pre => rough_pre.rough_predictions);
+                        console.log(rough_pre)
+                        for(let i=0;i<rough_pre.length;i++){
+                          this.details = rough_pre[i]
+                        }
+                          
                     })
             }
         },

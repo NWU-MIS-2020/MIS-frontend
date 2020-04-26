@@ -181,9 +181,10 @@ export default {
                 // for (let i of this.roles_all) {
                 //     if (this.actual_role.find(name => name == i.name_en)) {
                 //         this.roles.push(i);
-                //     }
+                //    2017666044 }
                 // }
             });
+        
         this.$axios.get("plan/requirements/").then(response => {
             this.$store.commit('set_requirements', response.data.rough_requirements)
         });
@@ -192,6 +193,12 @@ export default {
     computed: {
         actual_role: function() {
             return this.$store.state.role;
+        },
+        role: function () {
+            return this.$store.state.role
+        },
+        name: function() {
+            return this.$store.state.name
         }
     },
     methods: {
