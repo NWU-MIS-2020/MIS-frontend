@@ -87,7 +87,6 @@ export default {
             this.$store.commit("set_name", response.data.name);
             this.$store.commit("set_username", response.data.username);
             let offeringIds = []; // 开设课程的id
-            let courses = []; // 历史课程(教学班)的数据
             this.$axios
                 .get("course/courses/", {
                     params: { cm_username: this.$store.state.username }

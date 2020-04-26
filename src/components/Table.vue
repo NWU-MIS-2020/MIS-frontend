@@ -35,7 +35,7 @@
             align: 'start',
             value: 'rough_requirement_index',
           },
-          { text: '预测评价值', value: 'indicator' },
+          { text: '预测评价值', value: 'indicator.toFixed(2)' },
           { text: '预警', value: 'is_lt_wil' }/* 
           { text: '审核人', value: 'people' }, */
         ],
