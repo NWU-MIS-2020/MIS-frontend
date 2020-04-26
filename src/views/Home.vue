@@ -141,6 +141,10 @@ export default {
                     {
                         name: "审核课程达成度",
                         route: "cm/course_cards"
+                    },
+                    {
+                        name: "管理评价依据",
+                        route: "cm/course_basis_cards"
                     }
                 ]
             },
@@ -168,6 +172,9 @@ export default {
     }),
     created() {
         let token = localStorage.getItem('token')
+        if (localStorage.getItem('username') != null) {
+            this.$store.commit("set_username", localStorage.getItem('username'));
+        }
         this.$axios.defaults.headers = {'Authorization': token}
         this.$axios
             .get("user/groups/")
@@ -186,7 +193,10 @@ export default {
             });
         
         this.$axios.get("plan/requirements/").then(response => {
-            this.$store.commit('set_requirements', response.data.rough_requirements)
+            this.$store.commit(
+                "set_requirements",
+                response.data.rough_requirements
+            );
         });
         this.roles = this.roles_all;
     },
@@ -203,7 +213,8 @@ export default {
     },
     methods: {
         logout: function() {
-            localStorage.setItem('token', '')
+            localStorage.setItem('token', null)
+            localStorage.setItem('username', null)
             this.$router.push('/')
         }
     }

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h1 align="center" style="padding: 40px">{{currentEvalutionValue.courseName}}的课程达成度统计数据</h1>
+        <h1 align="center" style="padding: 40px">{{currentCourse.courseName}}的课程达成度统计数据</h1>
         <v-divider></v-divider>
         <!-- 统计报表 -->
         <div style="padding: 40px">
             <v-row>
-                <v-col v-for="(item, i) in currentEvalutionValue.values" :key="i" cols="3" md="6">
+                <v-col v-for="(item, i) in currentCourse.indexes" :key="i" cols="3" md="6">
                     <course-manager-statistic-card :statistics="calculateStatistics(item)"></course-manager-statistic-card>
                 </v-col>
             </v-row>
@@ -20,7 +20,7 @@
                     <v-icon right>mdi-checkbox-marked-circle</v-icon>
                 </v-btn>
                 <!-- 审核通过对话框 -->
-                <v-dialog v-model="passDialog" max-width="290">
+                <v-dialog v-model="passDialog" persistent max-width="290">
                     <v-card>
                         <v-card-title class="headline">提示</v-card-title>
                         <v-card-text>操作不可恢复。您确定通过审核吗？</v-card-text>
@@ -37,20 +37,20 @@
                     <v-icon right>mdi-cancel</v-icon>
                 </v-btn>
                 <!-- 审核未通过对话框 -->
-                <v-dialog v-model="failDialog" max-width="290">
+                <v-dialog v-model="failDialog" persistent max-width="350">
                     <v-card>
                         <v-card-title class="headline">提示</v-card-title>
                         <v-card-text>
                             <v-container>
-                                <v-row>
-                                    <v-col cols="12" sm="6" md="12">
-                                        <v-textarea
+                                <v-row justify="center">
+                                    <v-col>
+                                        <v-text-field
                                             label="审核未通过的原因*"
+                                            v-model="failReason"
+                                            :rules="failReasonRules"
                                             required
-                                            counter="150"
-                                            class="mx-2"
-                                            rows="1"
-                                        ></v-textarea>
+                                            :counter="150"
+                                        ></v-text-field>
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -59,7 +59,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="green darken-1" text @click="failDialog = false">取消</v-btn>
-                            <v-btn color="green darken-1" text @click="failDialog = false">确定</v-btn>
+                            <v-btn color="green darken-1" text @click="acceptFailDialog()">确定</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -71,32 +71,53 @@
 
 <script>
 import CourseManagerStatisticCard from "./CourseManagerStatisticCard.vue";
-// import { mapState } from "vuex";
 export default {
     components: { CourseManagerStatisticCard },
     data: () => ({
+        failReason: "",
+        failReasonRules: [
+            v => !!v || "未通过原因不能为空",
+            v => (v && v.length <= 150) || "内容不得多于150字"
+        ],
         defaultFocus: 0,
         passDialog: false,
         failDialog: false,
-        currentEvalutionValue: JSON.parse(
-            sessionStorage.getItem("currentEvalutionValue")
-        )
+        currentCourse: JSON.parse(sessionStorage.getItem("currentCourse"))
     }),
-    // computed: {
-    //     ...mapState(["currentEvalutionValue"])
-    // },
     methods: {
         acceptPassDialog: function() {
-            let index = sessionStorage.getItem("currentIndex");
-            let evaluationValues = JSON.parse(
-                sessionStorage.getItem("evaluationValues")
-            );
-            evaluationValues.splice(parseInt(index), 1);
-            sessionStorage.setItem(
-                "evaluationValues",
-                JSON.stringify(evaluationValues)
-            );
+            this.$axios
+                .put("course/courses/", {
+                    courses: [
+                        {
+                            id: this.currentCourse.courseId,
+                            review_status: "已审核"
+                        }
+                    ]
+                })
+                .then(response => {
+                    console.log(response);
+                    alert("提交成功");
+                });
             this.passDialog = false;
+            this.$router.push({ path: "course_cards" });
+        },
+        acceptFailDialog: function() {
+            this.$axios
+                .put("course/courses/", {
+                    courses: [
+                        {
+                            id: this.currentCourse.courseId,
+                            review_status: "未通过",
+                            review_comment: this.failReason
+                        }
+                    ]
+                })
+                .then(response => {
+                    console.log(response);
+                    alert("提交成功");
+                });
+            this.failDialog = false;
             this.$router.push({ path: "course_cards" });
         },
         calculateStatistics: function(item) {
@@ -110,7 +131,7 @@ export default {
                     return 0;
                 }
             };
-            let list = item.list.slice().sort(compare); // 先拷贝再排序，否则陷入死循环
+            let list = item.studentMarks.slice().sort(compare); // 先拷贝再排序，否则陷入死循环
             let length = list.length;
             let sum = 0.0;
             let passCounter = 0;
@@ -139,10 +160,10 @@ export default {
                 else if (0.9 <= value <= 1.0) counter90++;
             }
             return {
-                courseName: JSON.parse(
-                    sessionStorage.getItem("currentEvalutionValue")
-                ).courseName,
+                courseName: JSON.parse(sessionStorage.getItem("currentCourse"))
+                    .courseName,
                 indexNo: item.indexNo,
+                indexContent: item.indexContent,
                 distribution: [
                     0,
                     counter01,
@@ -155,10 +176,9 @@ export default {
                     counter67,
                     counter78,
                     counter89,
-                    counter90,
-                    0
+                    counter90
                 ],
-                list: [
+                list: [ 
                     { name: "平均值", value: (sum / length).toFixed(2) },
                     {
                         name: "及格率",

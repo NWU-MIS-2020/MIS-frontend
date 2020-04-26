@@ -41,6 +41,10 @@ const routes = [
         component: () => import('../views/teacher/InputGrades')
       },
       {
+        path: 'teacher/modify',
+        component: () => import('../views/teacher/ModifyGrades')
+      },
+      {
         path: 'tutor/cards',
         component: () => import('../views/tutor/Cards.vue'),
       },
@@ -50,11 +54,15 @@ const routes = [
       },
       {
         path: 'cm/course_cards',
-        component: () => import('../views/CM/CourseCardsGroup')
+        component: () => import('../views/CM/CourseManagerCourseEvaluationCards')
       },
       {
         path: 'cm/review_page',
         component: () => import('../views/CM/CourseManagerReviewPage')
+      },
+      {
+        path: 'cm/course_basis_cards',
+        component: () => import('../views/CM/CourseManagerCourseBasisCards')
       },
       {
         path: 'student/inquire',
