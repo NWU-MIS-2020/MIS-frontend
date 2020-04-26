@@ -1,10 +1,17 @@
 <template>
     <div style="padding: 20px">
-        <v-data-table :headers="headers" :items="matrix" class="elevation-1">
+        <v-data-table :headers="headers" :items="matrix"  :search="search" class="elevation-1">
             <template v-slot:top>
                 <v-toolbar flat color="white">
                     <v-toolbar-title>修改支撑矩阵</v-toolbar-title>
                     <v-divider class="mx-4" inset vertical></v-divider>
+                    <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="搜索"
+                        single-line
+                        hide-details
+                    ></v-text-field>
                     <v-spacer></v-spacer>
                     <v-dialog v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on }">
@@ -74,6 +81,7 @@
 export default {
     data: () => ({
         dialog: false,
+        search: '',
         headers: [
             { text: "序号", align: "start", value: "id" },
             { text: "指标点", value: "detailed_requirement" },
