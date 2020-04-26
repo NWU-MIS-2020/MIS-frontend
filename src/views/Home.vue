@@ -121,8 +121,12 @@ export default {
                 name_en: "tutor",
                 actions: [
                     {
-                        name: "查询学生毕业要求达成度",
+                        name: "查询学生毕业要求达成度列表",
                         route: "tutor/cards"
+                    },
+                    {
+                        name: "查询详细毕业要求达成度",
+                        route: "tutor/details"
                     }
                 ]
             },
@@ -173,11 +177,12 @@ export default {
                 this.$store.commit("set_username", response.data.username);
             })
             .then(() => {
-                // for (let i of this.roles_all) {
-                //     if (this.actual_role.find(name => name == i.name_en)) {
-                //         this.roles.push(i);
-                //     }
-                // }
+                // 只显示某个用户拥有的角色
+                for (let i of this.roles_all) {
+                    if (this.actual_role.find(name => name == i.name_en)) {
+                        this.roles.push(i);
+                    }
+                }
             });
         this.$axios.get("plan/requirements/").then(response => {
             this.$store.commit('set_requirements', response.data.rough_requirements)

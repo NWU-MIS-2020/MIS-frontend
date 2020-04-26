@@ -1,42 +1,57 @@
 <template>
     <div style="padding: 20px">
-        <v-select
-          :items="classes"
-          item-text="name"
-          item-value="id"
-          label="选择班级"
-          v-model="class_id"
-        ></v-select>
+        <v-select :items="classes" item-text="name" item-value="id" label="选择班级" v-model="class_id"></v-select>
         <v-btn color="primary" @click="query">查询</v-btn>
+        <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
+        <v-data-table
+            :headers="headers"
+            :items="predictions"
+            :items-per-page="50"
+            class="elevation-1"
+        ></v-data-table>
     </div>
 </template>
 
 <script>
-    export default {
-        data: () => ({
-            class_id: -1,
-            classes: []
-        }),
-        methods: {
-            query: function() {
-                this.$axios
-                    .get('prediction/detailed_predictions/?squad_id=' + this.class_id)
-                    .then
-            }
-        },
-        created() {
-            // 查询班级信息
+export default {
+    data: () => ({
+        class_id: -1,
+        classes: [],
+        loading: false,
+        predictions: [],
+        headers: [
+            { text: "学号", value: "username" },
+            { text: "姓名", value: "name" },
+            { text: "总体评价值", value: "total_indicator" }
+        ]
+    }),
+    methods: {
+        query: function() {
+            this.loading = true;
             this.$axios
-                .get('/user/squads/?tutor_username=' + this.username)
+                .get(
+                    "prediction/detailed_predictions/?squad_id=" + this.class_id
+                )
                 .then(response => {
-                    this.classes = response.data.squad
-                })
-        },
-        computed: {
-            username: function() {
-                return this.$store.state.username
-            }
-        },
-
+                    this.predictions = response.data.students;
+                    this.loading = false;
+                });
+        }
+    },
+    created() {
+        // 查询班级信息
+        this.loading = true;
+        this.$axios
+            .get("/user/squads/?tutor_username=" + this.username)
+            .then(response => {
+                this.classes = response.data.squads;
+                this.loading = false;
+            });
+    },
+    computed: {
+        username: function() {
+            return this.$store.state.username;
+        }
     }
+};
 </script>

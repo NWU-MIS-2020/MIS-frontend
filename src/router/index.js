@@ -46,11 +46,11 @@ const routes = [
       },
       {
         path: 'tutor/cards',
-        component: () => import('../views/tutor/Cards.vue'),
+        component: () => import('../views/tutor/Cards'),
       },
       {
-        path: 'tutor/students',
-        component: () => import('../views/tutor/Students.vue'),
+        path: 'tutor/details',
+        component: () => import('../views/tutor/Details'),
       },
       {
         path: 'cm/course_cards',
