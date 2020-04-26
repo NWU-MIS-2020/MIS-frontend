@@ -4,7 +4,7 @@
         <v-divider></v-divider>
         <div style="padding: 20px" align="center">
             <v-row>
-                <v-col v-for="(course, i) in courses" :key="i" cols="3" md="6">
+                <v-col v-for="(offeringCourse, i) in offeringCourses" :key="i" cols="3" md="6">
                     <v-hover v-slot:default="{ hover }">
                         <v-card
                             class="mx-auto"
@@ -18,11 +18,13 @@
                                     <v-expansion-panel-header>
                                         <v-list-item three-line>
                                             <v-list-item-content>
-                                                <div class="overline mb-4">学时：{{ course.hour }}</div>
+                                                <div
+                                                    class="overline mb-4"
+                                                >总学时：{{ offeringCourse.totalPeriod }}</div>
                                                 <v-list-item-title
                                                     class="headline mb-1"
-                                                >{{ course.courseName }}</v-list-item-title>
-                                                <v-list-item-subtitle>学分: {{course.score}}</v-list-item-subtitle>
+                                                >{{ offeringCourse.courseName }}</v-list-item-title>
+                                                <v-list-item-subtitle>学分: {{offeringCourse.credit}}</v-list-item-subtitle>
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-expansion-panel-header>
@@ -36,20 +38,23 @@
                                                 color="primary"
                                             >
                                                 <v-list-item
-                                                    v-for="(item, i) in loadPendingReviewList(course.courseName)"
+                                                    v-for="(course, i) in loadPendingReviewList(offeringCourse.courseName)"
                                                     :key="i"
-                                                    @click="toReviewPage(item, i)"
+                                                    @click="toReviewPage(course)"
                                                 >
                                                     <v-list-item-content>
-                                                        <v-list-item-title v-text="i+1"></v-list-item-title>
+                                                        <v-list-item-title v-text="course.courseId"></v-list-item-title>
                                                     </v-list-item-content>
-                                                    <v-list-item-icon>
-                                                        <v-icon>mdi-account</v-icon>
-                                                    </v-list-item-icon>
                                                     <v-list-item-content>
                                                         <v-list-item-title
-                                                            v-text="item.teacherName"
+                                                            v-text="course.teacherName"
                                                         ></v-list-item-title>
+                                                    </v-list-item-content>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title
+                                                            v-text="course.studentNumber"
+                                                        ></v-list-item-title>
+                                                        <v-icon>mdi-account</v-icon>
                                                     </v-list-item-content>
                                                 </v-list-item>
                                             </v-list-item-group>
@@ -69,70 +74,105 @@
 import { mapState } from "vuex";
 export default {
     data: () => ({
-        courses: [
-            {
-                courseName: "IT项目管理",
-                hour: "54",
-                score: "4.5"
-            },
-            {
-                courseName: "软件工程",
-                hour: "54",
-                score: "4"
-            },
-            {
-                courseName: "计算机网络",
-                hour: "54",
-                score: "3"
-            },
-            {
-                courseName: "计算机组成原理",
-                hour: "54",
-                score: "4"
-            }
-        ],
-        defaultFocus: 0,
-        // evaluationValues: JSON.parse(sessionStorage.getItem("evaluationValues"))
+        offeringCourses: [], // 开设课程
+        courses: [], // 历史课程
+        defaultFocus: 0
     }),
+    created() {
+        let token = localStorage.getItem("token");
+        this.$axios.defaults.headers = { Authorization: token };
+        this.$axios.get("user/groups/").then(response => {
+            let role = response.data.groups.map(role => role.name);
+            this.$store.commit("set_role", role);
+            this.$store.commit("set_name", response.data.name);
+            this.$store.commit("set_username", response.data.username);
+            let offeringIds = []; // 开设课程的id
+            let courses = []; // 历史课程(教学班)的数据
+            this.$axios
+                .get("course/courses/", {
+                    params: { cm_username: this.$store.state.username }
+                })
+                .then(response => {
+                    // console.log(response);
+                    for (let course of response.data.courses) {
+                        offeringIds.push(course.offering_course.id);
+                        if (course.review_status === "未审核") {
+                            let item = {
+                                courseId: course.id,
+                                courseName: course.offering_course.name,
+                                teacherName: course.teachers[0].name,
+                                studentNumber: course.students.length
+                            };
+                            let indexes = []; // 指标点的相关数据
+                            this.$axios
+                                .get("course/cm_grades", {
+                                    params: { course_id: course.id }
+                                })
+                                .then(response => {
+                                    for (let detailedRequirement of response
+                                        .data.detailed_requirements) {
+                                        let index = {
+                                            indexNo:
+                                                detailedRequirement.rough_requirement_index +
+                                                "-" +
+                                                detailedRequirement.detailed_requirement_index,
+                                            indexContent:
+                                                detailedRequirement.detailed_requirement_description,
+                                            studentMarks:
+                                                detailedRequirement.students_marks
+                                        };
+                                        indexes.push(index);
+                                    }
+                                });
+                            item.indexes = indexes;
+                            courses.push(item);
+                        }
+                    }
+                    offeringIds = this.dedupe(offeringIds);
+                    let offeringCourses = []; // 负责的所有开设课程
+                    for (let offeringId of offeringIds) {
+                        this.$axios
+                            .get("plan/offering_courses/", {
+                                params: { id: offeringId }
+                            })
+                            .then(response => {
+                                let offeringCourse = {
+                                    coureId: offeringId,
+                                    courseName:
+                                        response.data.offering_courses[0].name,
+                                    totalPeriod:
+                                        response.data.offering_courses[0]
+                                            .total_period,
+                                    credit:
+                                        response.data.offering_courses[0].credit
+                                };
+                                offeringCourses.push(offeringCourse);
+                            });
+                    }
+                    // console.log(offeringCourses);
+                    console.log(courses);
+                    this.offeringCourses = offeringCourses;
+                    this.courses = courses;
+                    sessionStorage.setItem("courses", JSON.stringify(courses));
+                });
+        });
+    },
     methods: {
-        toReviewPage: function(item, i) {
-            sessionStorage.setItem(
-                "currentEvalutionValue",
-                JSON.stringify(item)
-            );
-            sessionStorage.setItem("currentIndex", i);
+        toReviewPage: function(course) {
+            sessionStorage.setItem("currentCourse", JSON.stringify(course));
+            // sessionStorage.setItem("currentIndex", i);
             this.$router.push({ path: "review_page" });
         },
+        dedupe: function(array) {
+            // 数组去重
+            return Array.from(new Set(array));
+        },
         loadPendingReviewList: function(courseName) {
-            // let evaluationValues = [
-            //     {
-            //         courseName: "软件工程",
-            //         teacherName: "王二小",
-            //         values: [
-            //             { indexNo: "1-1", list: [0.1, 0.2, 0.3, 0.4, 0.5] },
-            //             { indexNo: "1-2", list: [0.6, 0.2, 0.7, 0.4, 0.9] },
-            //             { indexNo: "1-3", list: [0.2, 0.5, 0.8, 0.3, 0.2] }
-            //         ]
-            //     },
-            //     {
-            //         courseName: "软件工程",
-            //         teacherName: "李小三",
-            //         values: [
-            //             { indexNo: "2-1", list: [0.2, 0.1, 0.4, 0.3, 0.1] },
-            //             { indexNo: "2-2", list: [0.7, 0.1, 0.8, 0.2, 0.4] },
-            //             { indexNo: "2-3", list: [0.3, 0.4, 0.9, 0.6, 0.6] }
-            //         ]
-            //     }
-            // ];
-            // sessionStorage.setItem(
-            //     "evaluationValues",
-            //     JSON.stringify(evaluationValues)
-            // );
-            let listLength = this.evaluationValues.length;
+            let listLength = this.courses.length;
             let result = [];
             for (let i = 0; i < listLength; i++) {
-                if (this.evaluationValues[i].courseName === courseName) {
-                    result.push(this.evaluationValues[i]);
+                if (this.courses[i].courseName === courseName) {
+                    result.push(this.courses[i]);
                 }
             }
             return result;
