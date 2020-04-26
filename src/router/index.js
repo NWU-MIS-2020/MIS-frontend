@@ -54,11 +54,15 @@ const routes = [
       },
       {
         path: 'cm/course_cards',
-        component: () => import('../views/CM/CourseCardsGroup')
+        component: () => import('../views/CM/CourseManagerCourseEvaluationCards')
       },
       {
         path: 'cm/review_page',
         component: () => import('../views/CM/CourseManagerReviewPage')
+      },
+      {
+        path: 'cm/course_basis_cards',
+        component: () => import('../views/CM/CourseManagerCourseBasisCards')
       },
       {
         path: 'student/inquire',
