@@ -108,6 +108,7 @@ export default {
             }).then((response) => {
                 console.log(response.data)
                 localStorage.setItem('token', response.data.token)
+                localStorage.setItem('username', this.username)
                 this.$router.push("home")
             }).catch(error => {
                 if (error.response.status == 400) {

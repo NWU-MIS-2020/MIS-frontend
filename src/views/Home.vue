@@ -160,6 +160,9 @@ export default {
     }),
     created() {
         let token = localStorage.getItem('token')
+        if (localStorage.getItem('username') != null) {
+            this.$store.commit("set_username", localStorage.getItem('username'));
+        }
         this.$axios.defaults.headers = {'Authorization': token}
         this.$axios
             .get("user/groups/")
@@ -188,7 +191,8 @@ export default {
     },
     methods: {
         logout: function() {
-            localStorage.setItem('token', '')
+            localStorage.setItem('token', null)
+            localStorage.setItem('username', null)
             this.$router.push('/')
         }
     }
