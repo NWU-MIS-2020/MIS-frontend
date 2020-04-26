@@ -137,6 +137,10 @@ export default {
                     {
                         name: "审核课程达成度",
                         route: "cm/course_cards"
+                    },
+                    {
+                        name: "管理评价依据",
+                        route: "cm/course_basis_cards"
                     }
                 ]
             },
@@ -185,7 +189,10 @@ export default {
                 }
             });
         this.$axios.get("plan/requirements/").then(response => {
-            this.$store.commit('set_requirements', response.data.rough_requirements)
+            this.$store.commit(
+                "set_requirements",
+                response.data.rough_requirements
+            );
         });
         this.roles = this.roles_all;
     },

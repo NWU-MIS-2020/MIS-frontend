@@ -96,37 +96,6 @@ export default {
                     // console.log(response);
                     for (let course of response.data.courses) {
                         offeringIds.push(course.offering_course.id);
-                        if (course.review_status === "未审核") {
-                            let item = {
-                                courseId: course.id,
-                                courseName: course.offering_course.name,
-                                teacherName: course.teachers[0].name,
-                                studentNumber: course.students.length
-                            };
-                            let indexes = []; // 指标点的相关数据
-                            this.$axios
-                                .get("course/cm_grades", {
-                                    params: { course_id: course.id }
-                                })
-                                .then(response => {
-                                    for (let detailedRequirement of response
-                                        .data.detailed_requirements) {
-                                        let index = {
-                                            indexNo:
-                                                detailedRequirement.rough_requirement_index +
-                                                "-" +
-                                                detailedRequirement.detailed_requirement_index,
-                                            indexContent:
-                                                detailedRequirement.detailed_requirement_description,
-                                            studentMarks:
-                                                detailedRequirement.students_marks
-                                        };
-                                        indexes.push(index);
-                                    }
-                                });
-                            item.indexes = indexes;
-                            courses.push(item);
-                        }
                     }
                     offeringIds = this.dedupe(offeringIds);
                     let offeringCourses = []; // 负责的所有开设课程
@@ -150,10 +119,9 @@ export default {
                             });
                     }
                     // console.log(offeringCourses);
-                    console.log(courses);
+
                     this.offeringCourses = offeringCourses;
-                    this.courses = courses;
-                    sessionStorage.setItem("courses", JSON.stringify(courses));
+                    
                 });
         });
     },
