@@ -65,6 +65,10 @@ const routes = [
         component: () => import('../views/CM/CourseManagerCourseBasisCards')
       },
       {
+        path: "cm/basis_templates",
+        component: () => import('../views/CM/CourseManagerBasisTemplates')
+      },
+      {
         path: 'student/inquire',
         component: () => import('../views/student/RightInquire.vue'),
       },

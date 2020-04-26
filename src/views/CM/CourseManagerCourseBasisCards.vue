@@ -32,29 +32,26 @@
                                         <v-divider></v-divider>
                                         <!-- 未审核列表 -->
                                         <v-list rounded>
-                                            <v-subheader>未审核列表</v-subheader>
+                                            <v-subheader>指标点列表</v-subheader>
                                             <v-list-item-group
                                                 v-model="defaultFocus"
                                                 color="primary"
                                             >
                                                 <v-list-item
-                                                    v-for="(course, i) in loadPendingReviewList(offeringCourse.courseName)"
+                                                    v-for="(factor, i) in offeringCourse.factors"
                                                     :key="i"
-                                                    @click="toReviewPage(course)"
+                                                    @click="toReviewPage(factor)"
                                                 >
                                                     <v-list-item-content>
-                                                        <v-list-item-title v-text="course.courseId"></v-list-item-title>
+                                                        <v-list-item-title v-text="i+1"></v-list-item-title>
+                                                    </v-list-item-content>
+                                                    <v-list-item-content>
+                                                        <v-icon>mdi-star</v-icon>
                                                     </v-list-item-content>
                                                     <v-list-item-content>
                                                         <v-list-item-title
-                                                            v-text="course.teacherName"
+                                                            v-text="factor.indexNo"
                                                         ></v-list-item-title>
-                                                    </v-list-item-content>
-                                                    <v-list-item-content>
-                                                        <v-list-item-title
-                                                            v-text="course.studentNumber"
-                                                        ></v-list-item-title>
-                                                        <v-icon>mdi-account</v-icon>
                                                     </v-list-item-content>
                                                 </v-list-item>
                                             </v-list-item-group>
@@ -115,31 +112,62 @@ export default {
                                     credit:
                                         response.data.offering_courses[0].credit
                                 };
+                                this.$axios
+                                    .get("plan/indicator_factors/", {
+                                        params: {
+                                            offering_course_id: offeringId
+                                        }
+                                    })
+                                    .then(response => {
+                                        // console.log(response);
+                                        let factors = []; // 该开设课程支撑的指标点们及对应的已有的评价依据
+                                        for (let indicatorFactor of response
+                                            .data.indicator_factors) {
+                                            let factor = {
+                                                courseName: offeringCourse.courseName,
+                                                factorId: indicatorFactor.id,
+                                                indexId:
+                                                    indicatorFactor.detailed_requirement,
+                                                indexNo:
+                                                    indicatorFactor.rough_index +
+                                                    "-" +
+                                                    indicatorFactor.detailed_index,
+                                                indexContent:
+                                                    indicatorFactor.detailed_description,
+                                                target: indicatorFactor.target,
+                                                basisTemplates:
+                                                    indicatorFactor.basis_templates
+                                            };
+                                            factors.push(factor);
+                                        }
+                                        offeringCourse.factors = factors;
+                                    });
                                 offeringCourses.push(offeringCourse);
                             });
                     }
                     // console.log(offeringCourses);
-
                     this.offeringCourses = offeringCourses;
-                    
                 });
         });
     },
     methods: {
-        toReviewPage: function(course) {
-            sessionStorage.setItem("currentCourse", JSON.stringify(course));
+        toReviewPage: function(facotr) {
+            sessionStorage.setItem(
+                "currentFacotr",
+                JSON.stringify(facotr)
+            );
             // sessionStorage.setItem("currentIndex", i);
-            this.$router.push({ path: "review_page" });
+            this.$router.push({ path: "basis_templates" });
         },
         dedupe: function(array) {
             // 数组去重
             return Array.from(new Set(array));
         },
-        loadPendingReviewList: function(courseName) {
+        loadDetailedRequirements: function(courseId) {
             let listLength = this.courses.length;
             let result = [];
             for (let i = 0; i < listLength; i++) {
-                if (this.courses[i].courseName === courseName) {
+                if (this.courses[i].courseName === courseId) {
                     result.push(this.courses[i]);
                 }
             }

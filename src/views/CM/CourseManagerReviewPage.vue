@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 align="center" style="padding: 40px">{{currentCourse.courseName}}的课程达成度统计数据</h1>
+        <h1 align="center" style="padding: 40px">《{{currentCourse.courseName}}》的课程达成度统计数据</h1>
         <v-divider></v-divider>
         <!-- 统计报表 -->
         <div style="padding: 40px">
