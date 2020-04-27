@@ -55,19 +55,30 @@
                 <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
             </template>
             <template v-slot:no-data>暂无数据</template>
-            <template v-slot:expanded-item="{ item }">
-                <tr width="170%" v-for="detail in item.detailed_requirements" :key="detail.index">
-                    <td>{{ detail.index }}:</td>
-                    <td>{{ detail.description }}</td>
-                    <td>{{ detail.indicator_warning_line }}</td>
-                    <td>
-                        <v-icon small class="mr-2" @click="point_editItem(item, detail)">mdi-pencil</v-icon>
-                    </td>
-                    <td>
-                        <v-icon small @click="point_deleteItem(item, detail)">mdi-delete</v-icon>
-                    </td>
-                    <!-- {{detail}} -->
-                </tr>
+            <template v-slot:expanded-item="{ headers, item }">
+                <!-- 外嵌一个单元格，使之可以横向合并 -->
+                <td :colspan="headers.length">
+                    <v-subheader>指标点列表</v-subheader>
+                    <tr>
+                        <th>编号</th>
+                        <th>描述</th>
+                        <th>预警阈值</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr v-for="detail in item.detailed_requirements" :key="detail.index">
+                        <td>{{ detail.index }}</td>
+                        <td>{{ detail.description }}</td>
+                        <td>{{ detail.indicator_warning_line }}</td>
+                        <td>
+                            <v-icon
+                                small
+                                class="mr-2"
+                                @click="point_editItem(item, detail)"
+                            >mdi-pencil</v-icon>
+                            <v-icon small @click="point_deleteItem(item, detail)">mdi-delete</v-icon>
+                        </td>
+                    </tr>
+                </td>
             </template>
         </v-data-table>
 
@@ -84,10 +95,16 @@
                                 <v-text-field v-model="point_editedItem.index" label="序号"></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="6" md="4">
-                                <v-text-field v-model="point_editedItem.description" label="毕业要求指标点"></v-text-field>
+                                <v-text-field
+                                    v-model="point_editedItem.description"
+                                    label="毕业要求指标点"
+                                ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="6" md="4">
-                                <v-text-field v-model="point_editedItem.indicator_warning_line" label="预警阈值"></v-text-field>
+                                <v-text-field
+                                    v-model="point_editedItem.indicator_warning_line"
+                                    label="预警阈值"
+                                ></v-text-field>
                             </v-col>
                         </v-row>
                     </v-container>
@@ -153,7 +170,8 @@ export default {
         point_formTitle() {
             return this.point_editedIndex === -1 ? "新建" : "编辑";
         },
-        requirements() { // TODO 当对requirements进行任意修改后需commit
+        requirements() {
+            // TODO 当对requirements进行任意修改后需commit
             return this.$store.state.requirements;
         }
     },
@@ -232,16 +250,20 @@ export default {
 
         point_editItem(item, detail) {
             // console.log(item)
-            console.log(detail)
-            this.editedIndex = this.requirements.indexOf(item)
-            this.point_editedIndex = this.requirements[this.editedIndex].detailed_requirements.indexOf(detail);
+            console.log(detail);
+            this.editedIndex = this.requirements.indexOf(item);
+            this.point_editedIndex = this.requirements[
+                this.editedIndex
+            ].detailed_requirements.indexOf(detail);
             this.point_editedItem = Object.assign({}, detail);
             this.point_dialog = true;
         },
 
         point_deleteItem(item, detail) {
-            this.editedIndex = this.requirements.indexOf(item)
-            const index = this.requirements[this.editedIndex].detailed_requirements.indexOf(detail);
+            this.editedIndex = this.requirements.indexOf(item);
+            const index = this.requirements[
+                this.editedIndex
+            ].detailed_requirements.indexOf(detail);
             console.log(index);
             if (confirm("确定要删除吗?")) {
                 this.$axios
@@ -261,7 +283,10 @@ export default {
         point_close() {
             this.point_dialog = false;
             setTimeout(() => {
-                this.point_editedItem = Object.assign({}, this.point_defaultItem);
+                this.point_editedItem = Object.assign(
+                    {},
+                    this.point_defaultItem
+                );
                 this.point_editedIndex = -1;
             }, 300);
         },
@@ -269,7 +294,9 @@ export default {
         point_save() {
             console.log(this.point_editedIndex);
             if (this.point_editedIndex > -1) {
-                this.point_editedItem.id = this.requirements[this.editedIndex].detailed_requirements[this.point_editedIndex].id
+                this.point_editedItem.id = this.requirements[
+                    this.editedIndex
+                ].detailed_requirements[this.point_editedIndex].id;
                 this.$axios
                     .put("plan/detailed_requirements/", {
                         detailed_requirements: [this.point_editedItem]
@@ -279,13 +306,16 @@ export default {
                         console.log(this.point_editedIndex);
                         alert("修改成功");
                         Object.assign(
-                            this.requirements[this.editedIndex].detailed_requirements[this.point_editedIndex],
+                            this.requirements[this.editedIndex]
+                                .detailed_requirements[this.point_editedIndex],
                             this.point_editedItem
                         );
                         this.point_close();
                     });
             } else {
-                this.point_editedItem.rough_requirement = this.requirements[this.editedIndex].id
+                this.point_editedItem.rough_requirement = this.requirements[
+                    this.editedIndex
+                ].id;
                 this.$axios
                     .post("plan/detailed_requirements/", {
                         detailed_requirements: [this.point_editedItem]
@@ -293,11 +323,13 @@ export default {
                     .then(response => {
                         console.log(response);
                         alert("添加成功");
-                        this.requirements[this.editedIndex].detailed_requirements.push(this.point_editedItem);
+                        this.requirements[
+                            this.editedIndex
+                        ].detailed_requirements.push(this.point_editedItem);
                         this.point_close();
                     });
             }
-        },
+        }
     }
 };
 </script>
