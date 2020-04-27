@@ -1,18 +1,24 @@
 <template>
     <div>
-        <import-excel></import-excel>
-        <export-excel></export-excel>
+        <import-students-excel></import-students-excel>
+        <export-students-template-excel></export-students-template-excel>
+        <import-indicators-excel></import-indicators-excel>
+        <export-indicators-template-excel></export-indicators-template-excel>
     </div>
 </template>
 
 <script>
-    import ImportExcel from './ImportExcel'
-    import ExportExcel from './ExportExcel'
+    import ImportStudentsExcel from './ImportStudentsExcel'
+    import ExportStudentsTemplateExcel from './ExportStudentsTemplateExcel'
+    import ImportIndicatorsExcel from './ImportIndicatorsExcel'
+    import ExportIndicatorsTemplateExcel from './ExportIndicatorsTemplateExcel'
 
     export default {
         components: {
-            'import-excel': ImportExcel,
-            'export-excel': ExportExcel
+            'import-students-excel': ImportStudentsExcel,
+            'export-students-template-excel': ExportStudentsTemplateExcel,
+            'import-indicators-excel': ImportIndicatorsExcel,
+            'export-indicators-template-excel': ExportIndicatorsTemplateExcel,
         }
     }
 </script>
