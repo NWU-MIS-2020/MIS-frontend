@@ -142,6 +142,7 @@ export default {
             console.log(item);
             this.editedIndex = this.matrix.indexOf(item);
             this.editedItem = Object.assign({}, item);
+            this.editedItem.offering_course = item.offering_course.id
             this.dialog = true;
         },
 

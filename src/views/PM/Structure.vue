@@ -260,6 +260,7 @@ export default {
         },
 
         point_deleteItem(item, detail) {
+            console.log(item, detail)
             this.editedIndex = this.requirements.indexOf(item);
             const index = this.requirements[
                 this.editedIndex
@@ -269,13 +270,13 @@ export default {
                 this.$axios
                     .delete("plan/detailed_requirements/", {
                         data: {
-                            rough_requirements: [{ id: item.id }]
+                            detailed_requirements: [{ id: detail.id }]
                         }
                     })
                     .then(response => {
                         console.log(response);
                         alert("Done");
-                        this.requirements.splice(index, 1);
+                        this.requirements[this.editedIndex].detailed_requirements.splice(index, 1);
                     });
             }
         },
