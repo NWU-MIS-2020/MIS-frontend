@@ -93,6 +93,15 @@ export default {
         roles: [],
         roles_all: [
             {
+                test: "test",
+                actions: [
+                    {
+                        name: "查询个人毕业要求达成度",
+                        route: "test/xlsx_test"
+                    }
+                ]
+            },
+            {
                 name: "学生",
                 name_en: "student",
                 actions: [

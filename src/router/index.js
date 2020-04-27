@@ -16,6 +16,10 @@ const routes = [
     component: Home,
     children: [
       {
+        path: 'test/xlsx_test',
+        component: () => import('../components/excel/Excel.vue'),
+      },
+      {
         path: '',
         name: 'Home',
         component: () => import('../views/HomeContent')
