@@ -8,7 +8,7 @@
         >
             <template v-slot:top>
                 <v-toolbar flat color="white">
-                    <v-toolbar-title>修改开设课程</v-toolbar-title>
+                    <v-toolbar-title>管理开设课程</v-toolbar-title>
                     <v-divider class="mx-4" inset vertical></v-divider>
                     <v-text-field
                         v-model="search"

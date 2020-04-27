@@ -2,7 +2,7 @@
     <v-app>
         <router-view></router-view>
         <v-footer color="primary" app>
-            <span class="white--text">&copy; 2019</span>
+            <span class="white--text">西北大学 &copy; 2019</span>
         </v-footer>
     </v-app>
 </template>

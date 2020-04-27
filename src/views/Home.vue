@@ -55,6 +55,12 @@
                         <v-icon dark v-on="on">mdi-account-circle</v-icon>
                     </template>
                     <v-list>
+                        <v-list-item>
+                            <v-list-item-title>{{name}}</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>{{username}}</v-list-item-title>
+                        </v-list-item>
                         <v-list-item @click.stop="setting_dialog = true">
                             <v-list-item-title>设置</v-list-item-title>
                         </v-list-item>
@@ -157,15 +163,15 @@ export default {
                 name_en: "PM",
                 actions: [
                     {
-                        name: "修改毕业要求指标点",
+                        name: "管理毕业要求指标点",
                         route: "PM/structure"
                     },
                     {
-                        name: "修改支撑矩阵",
+                        name: "管理支撑矩阵",
                         route: "PM/matrix"
                     },
                     {
-                        name: "修改开设课程",
+                        name: "管理开设课程",
                         route: "PM/course"
                     }
                 ]
@@ -209,6 +215,12 @@ export default {
         actual_role: function() {
             return this.$store.state.role;
         },
+        name() {
+            return this.$store.state.name
+        },
+        username() {
+            return this.$store.state.username
+        }
     },
     methods: {
         logout: function() {

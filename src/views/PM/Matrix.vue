@@ -3,7 +3,7 @@
         <v-data-table :headers="headers" :items="matrix"  :search="search" class="elevation-1">
             <template v-slot:top>
                 <v-toolbar flat color="white">
-                    <v-toolbar-title>修改支撑矩阵</v-toolbar-title>
+                    <v-toolbar-title>管理支撑矩阵</v-toolbar-title>
                     <v-divider class="mx-4" inset vertical></v-divider>
                     <v-text-field
                         v-model="search"
