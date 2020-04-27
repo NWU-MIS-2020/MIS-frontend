@@ -4,6 +4,10 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 import axios from 'axios'
+import JsonExcel from 'vue-json-excel'
+Vue.component('downloadExcel', JsonExcel)
+import vueXlsxTable from 'vue-xlsx-table'
+Vue.use(vueXlsxTable, {rABS: false})
 
 Vue.prototype.$axios = axios
 axios.defaults.withCredentials = true;
