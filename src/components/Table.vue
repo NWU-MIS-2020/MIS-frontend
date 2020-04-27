@@ -35,9 +35,8 @@
             align: 'start',
             value: 'rough_requirement_index',
           },
-          { text: '预测评价值', value: 'indicator.toFixed(2)' },
-          { text: '预警', value: 'is_lt_wil' }/* 
-          { text: '审核人', value: 'people' }, */
+          { text: '预测评价值', value: 'indicator' },
+          { text: '预警', value: 'is_lt_wil' }
         ],
         }),
         created() {
@@ -48,13 +47,15 @@
                 this.$axios
                     .get('prediction/detailed_predictions/?student_username=' + this.username)
                     .then(response => {
+                      
                         let rough_pre = response.data.students.map(rough_pre => rough_pre.rough_predictions);
-                        console.log(rough_pre)
-                        for(let i=0;i<rough_pre.length;i++){
-                          this.details = rough_pre[i]
-                          console.log(rough_pre[i])
-                        }
+                        let rough_pre1 = rough_pre[0]
+                        for(let i=0;i<rough_pre1.length;i++){
+                         rough_pre1[i].indicator = rough_pre1[i].indicator.toFixed(2)
                           
+                        }
+                        this.details = rough_pre1
+                          console.log(this.details)
                     })
             },
             getColor: function(calories)  {
