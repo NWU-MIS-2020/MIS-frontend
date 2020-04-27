@@ -44,6 +44,9 @@
                                             ></v-select>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
+                                            <v-text-field v-model="editedItem.target" label="课程教学目标"></v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="6" md="4">
                                             <v-select
                                                 :items="offering_courses"
                                                 item-text="name"
@@ -84,7 +87,8 @@ export default {
         search: '',
         headers: [
             { text: "序号", align: "start", value: "id" },
-            { text: "指标点", value: "detailed_requirement" },
+            { text: "指标点", value: "detailed_description" },
+            { text: "课程教学目标", value: "target" },
             { text: "课程", value: "offering_course.name" },
             { text: "相关系数", value: "factor" },
             { text: "操作", value: "actions", sortable: false }

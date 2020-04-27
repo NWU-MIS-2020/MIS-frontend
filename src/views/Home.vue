@@ -99,15 +99,6 @@ export default {
         roles: [],
         roles_all: [
             {
-                test: "test",
-                actions: [
-                    {
-                        name: "查询个人毕业要求达成度",
-                        route: "test/xlsx_test"
-                    }
-                ]
-            },
-            {
                 name: "学生",
                 name_en: "student",
                 actions: [
@@ -182,6 +173,10 @@ export default {
                     {
                         name: "管理开设课程",
                         route: "PM/course"
+                    },
+                    {
+                        name: "管理学生",
+                        route: "PM/manage_student"
                     }
                 ]
             }
@@ -206,7 +201,7 @@ export default {
             .then(() => {
                 // 只显示某个用户拥有的角色
                 for (let i of this.roles_all) {
-                    if (this.actual_role.find(name => name == i.name_en)) {
+                    if (this.actual_role.find(name => name == i.name)) {
                         this.roles.push(i);
                     }
                 }
@@ -218,7 +213,6 @@ export default {
                 response.data.rough_requirements
             );
         });
-        this.roles = this.roles_all;
     },
     computed: {
         actual_role: function() {

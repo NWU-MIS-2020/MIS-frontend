@@ -16,10 +16,6 @@ const routes = [
     component: Home,
     children: [
       {
-        path: 'test/xlsx_test',
-        component: () => import('../components/excel/Excel.vue'),
-      },
-      {
         path: '',
         name: 'Home',
         component: () => import('../views/HomeContent')
@@ -35,6 +31,10 @@ const routes = [
       {
         path: 'PM/course',
         component: () => import('../views/PM/Course')
+      },
+      {
+        path: 'PM/manage_student',
+        component: () => import('../views/PM/ManageStudent')
       },
       {
         path: 'teacher/select_course',

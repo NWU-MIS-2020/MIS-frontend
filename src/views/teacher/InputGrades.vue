@@ -47,7 +47,9 @@
         </div>
 
         <v-dialog v-model="all_done_dialog" max-width="500px">
+            <v-card>
             所有评价值已填写完成。
+            </v-card>
             <v-btn color="primary" to="/home/teacher/select_course">返回</v-btn>
         </v-dialog>
     </v-container>
@@ -83,12 +85,6 @@ export default {
                     )
                     .then(response => {
                         this.formats = response.data.indicator_factors;
-                        // for (let i of this.formats) {
-                        //     for (let j of i.bases) {
-                        //         this.input_grades.indicator_marks.detailed_marks
-                        //     }
-                        // }
-                        // TODO
                         console.log(this.formats);
                     });
                 this.$axios

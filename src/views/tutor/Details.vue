@@ -1,6 +1,6 @@
 <template>
     <div style="padding: 20px">
-        <v-text-field v-model="student_username" label="学号"></v-text-field>
+        <v-text-field @keyup.enter="query" v-model="student_username" label="学号"></v-text-field>
         <v-btn color="primary" @click="query">查询</v-btn>
         <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
         <span v-if="input_error">输入有误，请重新输入。</span>
@@ -32,6 +32,7 @@ export default {
                         this.student_username
                 )
                 .then(response => {
+                    this.items = [];
                     this.prediction = response.data;
                     for (let rough_requirement of this.prediction
                         .rough_requirements) {
