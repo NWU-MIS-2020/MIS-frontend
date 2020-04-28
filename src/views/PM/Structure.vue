@@ -19,7 +19,8 @@
                                 :name="xls_name" style="padding:0px 5px">
                                 <v-btn color="primary" dark class="mb-2">导出全部</v-btn>
                             </download-excel>
-                            <v-btn color="primary" dark class="mb-2">导入</v-btn>
+                            <v-btn color="primary" dark class="mb-2" @click="open_file()">-导入-</v-btn>
+                            <input type="file" id="openfile" style="display:none"/>
                         </template>
                         <v-card>
                             <v-card-title>
@@ -367,7 +368,11 @@ export default {
                             }
                         }
                     })
-            },
+        },
+
+        open_file() {
+            document.getElementById('openfile').click()
+        }
     }
 };
 </script>
