@@ -16,6 +16,12 @@
                     <v-dialog v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on }">
                             <v-btn color="primary" dark class="mb-2" v-on="on">新建</v-btn>
+                            <download-excel :data="json_data" :fields="json_fields" :before-generate="startDownload"
+                                :name="xls_name" style="padding:0px 5px">
+                                <v-btn color="primary" dark class="mb-2">导出全部</v-btn>
+                            </download-excel>
+                            <v-btn color="primary" dark class="mb-2" @click="open_file()">-导入-</v-btn>
+                            <input type="file" id="openfile" style="display:none"/>
                         </template>
                         <v-card>
                             <v-card-title>
@@ -110,7 +116,16 @@ export default {
             factor: 0,
             target: "null",
             field_of_study: ""
-        }
+        },
+        json_fields: {
+            "指标点": "index",
+            "开设课程": "offering_course_name",
+            "系数": "factor",
+            "特定专业方向": "field_of_study",
+            "目标": "target",
+        },
+        json_data: [],
+        xls_name: "支撑矩阵.xls"
     }),
 
     computed: {
@@ -196,6 +211,30 @@ export default {
                         this.close();
                     });
             }
+        },
+        
+        async startDownload() {
+            console.log('show loading');
+            await this.$axios
+                .get('plan/indicator_factors/')
+                .then((response) => {
+                    let indicator_factors = response.data["indicator_factors"]
+                    //表体
+                    this.json_data = []
+                    for(let indicator_factor of indicator_factors){
+                        this.json_data.push({
+                            "index": indicator_factor.rough_index+"-"+indicator_factor.detailed_index+"'",
+                            "offering_course_name": indicator_factor.offering_course.name,
+                            "factor": indicator_factor.factor,
+                            "field_of_study": (indicator_factor.field_of_study==null)?null:indicator_factor.field_of_study.name,
+                            "target": indicator_factor.target,
+                        })
+                    }
+                })
+        },
+
+        open_file() {
+            document.getElementById('openfile').click()
         }
     }
 };
