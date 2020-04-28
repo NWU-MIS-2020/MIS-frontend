@@ -58,7 +58,7 @@ export default {
                 path: "/home/" + this.role + "/details",
                 query: { username: item.username, disable_input: true }
             });
-            console.log(item);
+            // console.log(item);
         }
     },
     created() {

@@ -1,7 +1,7 @@
 <template>
     <div style="padding: 20px">
         <v-text-field :disabled='disabled' @keyup.enter="query" v-model="username" label="学号"></v-text-field>
-        <v-btn color="primary" @click="query">查询</v-btn>
+        <v-btn color="primary" @click="query" v-if="!disabled">查询</v-btn>
         <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
         <span v-if="input_error">输入有误，请重新输入。</span>
         <div v-if="items.length != 0 && !loading">
@@ -25,10 +25,13 @@ export default {
     created() {},
     mounted() {
         this.student_username = this.username
+        if (this.disabled == true) {
+            this.query()
+        }
     },
     computed: {
         disabled() {
-            return this.disableInput === true
+            return this.disableInput === 'true'
         }
     },
     methods: {
