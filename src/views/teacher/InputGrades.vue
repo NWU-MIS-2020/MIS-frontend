@@ -83,7 +83,7 @@ export default {
                     )
                     .then(response => {
                         this.formats = response.data.indicator_factors;
-                        console.log(this.formats);
+                        // console.log(this.formats);
                     });
                 this.$axios
                     .get("course/grades/?course_id=" + this.course_id)
@@ -125,8 +125,8 @@ export default {
                 });
         },
         check() {
-            console.log(this.all_student_number);
-            console.log(this.done_student_number);
+            // console.log(this.all_student_number);
+            // console.log(this.done_student_number);
             if (this.all_student_number == this.done_student_number) {
                 this.$axios.put("course/courses/", {
                     courses: [

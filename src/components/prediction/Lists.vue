@@ -9,18 +9,29 @@
         ></v-select>
         <v-btn color="primary" @click="query">查询</v-btn>
         <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
-        <v-data-table
-            :headers="headers"
-            :items="predictions"
-            :items-per-page="50"
-            class="elevation-1"
-            @click:row="row_click"
-        >
-            <template v-slot:item.total_indicator="{item}">
-                <span v-if="item.total_indicator < 0.65" style="color: red">{{item.total_indicator}}</span>
-                <span v-else>{{item.total_indicator}}</span>
-            </template>
-        </v-data-table>
+        <v-card>
+            <v-card-title>毕业达成度列表
+            <v-spacer></v-spacer>
+            <v-select :items="filters" v-model="current_filter"></v-select>
+            </v-card-title>
+            <v-data-table
+                :headers="headers"
+                :items="predictions"
+                :items-per-page="50"
+                class="elevation-1"
+                @click:row="row_click"
+                :custom-filter="filter"
+                :search="current_filter"
+            >
+                <template v-slot:item.total_indicator="{item}">
+                    <span
+                        v-if="item.total_indicator < 0.65"
+                        style="color: red"
+                    >{{item.total_indicator}}</span>
+                    <span v-else>{{item.total_indicator}}</span>
+                </template>
+            </v-data-table>
+        </v-card>
     </div>
 </template>
 
@@ -32,6 +43,8 @@ export default {
         classes: [],
         loading: false,
         predictions: [],
+        filters: ["全部", "未达标", "已达标"],
+        current_filter: "全部",
         headers: [
             { text: "学号", value: "username" },
             { text: "姓名", value: "name" },
@@ -59,6 +72,18 @@ export default {
                 query: { username: item.username, disable_input: true }
             });
             // console.log(item);
+        },
+        filter(value, search, item) {
+            console.log(value, search, item)
+            if (search == "全部") return true;
+            else if (search == "未达标") {
+                if (item.total_indicator < 0.65) return true
+                else return false;
+            }
+            else {
+                if (item.total_indicator >= 0.65) return true
+                else return false;
+            }
         }
     },
     created() {
