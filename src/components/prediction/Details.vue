@@ -1,6 +1,6 @@
 <template>
     <div style="padding: 20px">
-        <v-text-field @keyup.enter="query" v-model="student_username" label="学号"></v-text-field>
+        <v-text-field :disabled='disabled' @keyup.enter="query" v-model="username" label="学号"></v-text-field>
         <v-btn color="primary" @click="query">查询</v-btn>
         <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
         <span v-if="input_error">输入有误，请重新输入。</span>
@@ -14,6 +14,7 @@
 
 <script>
 export default {
+    props: ['username', 'disable-input'],
     data: () => ({
         prediction: {},
         items: [], // 用于在treeview中显示
@@ -22,6 +23,14 @@ export default {
         input_error: false
     }),
     created() {},
+    mounted() {
+        this.student_username = this.username
+    },
+    computed: {
+        disabled() {
+            return this.disableInput === true
+        }
+    },
     methods: {
         query() {
             this.input_error = false;
@@ -29,7 +38,7 @@ export default {
             this.$axios
                 .get(
                     "prediction/student/?student_username=" +
-                        this.student_username
+                        this.username
                 )
                 .then(response => {
                     this.items = [];

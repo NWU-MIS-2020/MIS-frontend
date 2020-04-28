@@ -37,6 +37,14 @@ const routes = [
         component: () => import('../views/PM/ManageStudent')
       },
       {
+        path: 'PM/lists',
+        component: () => import('../views/PM/PredictionLists')
+      },
+      {
+        path: 'PM/details',
+        component: () => import('../views/PM/PredictionDetails')
+      },
+      {
         path: 'teacher/select_course',
         component: () => import('../views/teacher/Cards')
       },

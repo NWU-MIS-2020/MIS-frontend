@@ -110,10 +110,6 @@ export default {
                         name: "查询个人预测值达成度以及预警",
                         route: "student/inquire"
                     },
-                    /* {
-                        name: "查询个人毕业要求达成度预警",
-                        route: "student/alarm"
-                    }, */
                     {
                         name: "查询个人达成度统计情况",
                         route: "student/statistis"
@@ -177,6 +173,14 @@ export default {
                     {
                         name: "管理学生",
                         route: "PM/manage_student"
+                    },
+                    {
+                        name: "查询学生毕业要求达成度列表",
+                        route: "PM/lists"
+                    },
+                    {
+                        name: "查询详细毕业要求达成度",
+                        route: "PM/details"
                     }
                 ]
             }

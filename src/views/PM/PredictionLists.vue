@@ -1,6 +1,6 @@
 <template>
     <div>
-        <lists role="tutor"></lists>
+        <lists role="PM"></lists>
     </div>
 </template>
 
