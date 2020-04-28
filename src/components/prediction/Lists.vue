@@ -35,7 +35,7 @@ export default {
         headers: [
             { text: "学号", value: "username" },
             { text: "姓名", value: "name" },
-            { text: "总体评价值", value: "total_indicator" }
+            { text: "毕业达成预测值", value: "total_indicator" }
         ]
     }),
     methods: {
