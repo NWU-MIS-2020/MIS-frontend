@@ -179,11 +179,11 @@ export default {
                         route: "PM/manage_student"
                     },
                     {
-                        name: "查询学生毕业要求达成度列表",
+                        name: "查询学生毕业达成度列表",
                         route: "PM/lists"
                     },
                     {
-                        name: "查询详细毕业要求达成度",
+                        name: "查询学生详细达成情况",
                         route: "PM/details"
                     }
                 ]

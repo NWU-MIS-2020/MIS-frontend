@@ -107,7 +107,7 @@
             details: [{
             }
             ],
-            
+            number:'',
             headers: [
           {
             text: '指标点编号',
@@ -146,14 +146,19 @@
                         this.details = rough_pre1
                           console.log(this.details) */
                       let indicator_marks = response.data.grades.map(indicator_marks => indicator_marks.indicator_marks);
-                        console.log(response.data.grades)
                         
-                        this.offering_course_name = response.data.grades[0].course.offering_course.name
-                        for(let i of response.data.grades[0].indicator_marks){
+                        for(let j=0;j<response.data.grades.length;j++){
+                          
+                          if(response.data.grades[j].course.id == this.course_id){
+                            this.number = j}
+                        }
+                        console.log(response.data.grades[this.number].indicator_marks)
+                        this.offering_course_name = response.data.grades[this.number].course.offering_course.name
+                        for(let i of response.data.grades[this.number].indicator_marks){
                           let final_marks1 = i.detailed_marks
                           this.final_marks.push(final_marks1)
                         }
-                        let indicator_marks1 = indicator_marks[0]
+                        let indicator_marks1 = indicator_marks[this.number]
                         for(let i=0;i<indicator_marks1.length;i++){
                           indicator_marks1[i].total_marks = indicator_marks1[i].total_marks.toFixed(2)
                           

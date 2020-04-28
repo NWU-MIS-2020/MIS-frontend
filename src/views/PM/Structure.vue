@@ -16,9 +16,10 @@
                         <template v-slot:activator="{ on }">
                             <v-btn color="primary" dark class="mb-2" v-on="on">新建</v-btn>
                             <download-excel :data="json_data" :fields="json_fields" :before-generate="startDownload"
-                                :before-finish="finishDownload" :name="xls_name" style="padding:0px 5px">
+                                :name="xls_name" style="padding:0px 5px">
                                 <v-btn color="primary" dark class="mb-2">导出全部</v-btn>
                             </download-excel>
+                            <v-btn color="primary" dark class="mb-2">导入</v-btn>
                         </template>
                         <v-card>
                             <v-card-title>
