@@ -221,6 +221,9 @@ export default {
                 response.data.rough_requirements
             );
         });
+        this.$axios.get("plan/indicator_factors/").then(response => {
+            this.$store.commit('set_indicator_matrix', response.data.indicator_factors)
+        });
     },
     computed: {
         actual_role: function() {

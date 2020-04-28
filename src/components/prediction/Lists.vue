@@ -74,7 +74,7 @@ export default {
             // console.log(item);
         },
         filter(value, search, item) {
-            console.log(value, search, item)
+            // console.log(value, search, item)
             if (search == "全部") return true;
             else if (search == "未达标") {
                 if (item.total_indicator < 0.65) return true

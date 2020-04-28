@@ -25,7 +25,8 @@
                                     :key="index_indicator_mark"
                                 >
                                     <v-list dense>
-                                        <v-list-item-content>{{ indicator_mark.indicator_factor }}</v-list-item-content>
+                                        <!-- TODO -->
+                                        <v-list-item-content>{{ indicator_name(indicator_mark.indicator_factor) }}</v-list-item-content>
                                         <v-list-item
                                             v-for="(detailed_mark, index_detailed_mark) in indicator_mark.detailed_marks"
                                             :key="index_detailed_mark"
@@ -87,7 +88,11 @@ export default {
                 this.loading = false;
             });
     },
-    computed: {},
+    computed: {
+        matrix() {
+            return this.$store.state.indicator_matrix
+        }
+    },
     methods: {
         editItem(item, index_indicator_mark, index_detailed_mark) {
             this.editedItem = item;
@@ -125,6 +130,14 @@ export default {
                     alert("提交审核成功。")
                     this.$router.push({ path: "/home/teacher/select_course" });
                 })
+        },
+        indicator_name: function(indicator_factor) {
+            for (let i of this.matrix) {
+                if (i.id == indicator_factor) {
+                    return i.rough_index + '-' + i.detailed_index + '. ' + i.detailed_description
+                }
+            }
+            return indicator_factor
         }
     }
 };
