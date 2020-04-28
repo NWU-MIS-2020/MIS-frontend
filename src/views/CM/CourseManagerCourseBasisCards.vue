@@ -49,9 +49,7 @@
                                                         <v-icon>mdi-star</v-icon>
                                                     </v-list-item-content>
                                                     <v-list-item-content>
-                                                        <v-list-item-title
-                                                            v-text="factor.indexNo"
-                                                        ></v-list-item-title>
+                                                        <v-list-item-title v-text="factor.indexNo"></v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-list-item>
                                             </v-list-item-group>
@@ -124,7 +122,8 @@ export default {
                                         for (let indicatorFactor of response
                                             .data.indicator_factors) {
                                             let factor = {
-                                                courseName: offeringCourse.courseName,
+                                                courseName:
+                                                    offeringCourse.courseName,
                                                 factorId: indicatorFactor.id,
                                                 indexId:
                                                     indicatorFactor.detailed_requirement,
@@ -147,15 +146,31 @@ export default {
                     }
                     // console.log(offeringCourses);
                     this.offeringCourses = offeringCourses;
+                    // let courseStudents = [];
+                    // let courses = [7, 8, 9, 10, 11];
+                    // let students = [2017666041, 2017666042, 2017666043];
+                    // for (let course of courses) {
+                    //     for (let student of students) {
+                    //         let courseStudent = {
+                    //             course: course,
+                    //             student: student
+                    //         };
+                    //         courseStudents.push(courseStudent);
+                    //     }
+                    // }
+                    // this.$axios
+                    //     .post("course/course_students/", {
+                    //         course_students: courseStudents
+                    //     })
+                    //     .then(response => {
+                    //         console.log(response);
+                    //     });
                 });
         });
     },
     methods: {
         toReviewPage: function(facotr) {
-            sessionStorage.setItem(
-                "currentFacotr",
-                JSON.stringify(facotr)
-            );
+            sessionStorage.setItem("currentFacotr", JSON.stringify(facotr));
             // sessionStorage.setItem("currentIndex", i);
             this.$router.push({ path: "basis_templates" });
         },
