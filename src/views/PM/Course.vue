@@ -21,6 +21,10 @@
                     <v-dialog v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on }">
                             <v-btn color="primary" dark class="mb-2" v-on="on">新建</v-btn>
+                            <download-excel :data="json_data" :fields="json_fields" :before-generate="startDownload"
+                                :before-finish="finishDownload" :name="xls_name" style="padding:0px 5px">
+                                <v-btn color="primary" dark class="mb-2">导出全部</v-btn>
+                            </download-excel>
                         </template>
                         <v-card>
                             <v-card-title>
@@ -112,7 +116,21 @@ export default {
             course_type: "",
             name: "",
             teaching_period: 0
-        }
+        },
+        json_fields: {
+            "课程编号": "number",
+            "课程名": "name",
+            "课程类型": "course_type",
+            "课程性质": "course_property",
+            "学分": "credit",
+            "总学时": "total_period",
+            "课堂教学学时": "teaching_period",
+            "课堂实验学时": "experiment_period",
+            "课程实习": "practice_period",
+            "开设学期": "semester"
+        },
+        json_data: [],
+        xls_name: "开设课程.xls"
     }),
 
     computed: {
@@ -195,7 +213,32 @@ export default {
                         this.close();
                     });
             }
-        }
+        },
+
+        async startDownload() {
+                console.log('show loading');
+                await this.$axios
+                    .get('plan/offering_courses/')
+                    .then((response) => {
+                        let offering_courses = response.data["offering_courses"]
+                        //表体
+                        this.json_data = []
+                        for(let offering_course of offering_courses){
+                            this.json_data.push({
+                                "number": offering_course.number,
+                                "name": offering_course.name,
+                                "course_type": offering_course.course_type,
+                                "course_property": offering_course.course_property,
+                                "credit": offering_course.credit,
+                                "total_period": offering_course.total_period,
+                                "teaching_period": offering_course.teaching_period,
+                                "experiment_period": offering_course.experiment_period,
+                                "practice_period": offering_course.practice_period,
+                                "semester": offering_course.semester+"'"
+                            })
+                        }
+                    })
+            },
     }
 };
 </script>

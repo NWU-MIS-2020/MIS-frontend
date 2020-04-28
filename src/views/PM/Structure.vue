@@ -351,6 +351,7 @@ export default {
                     .then((response) => {
                         let rough_requirements = response.data["rough_requirements"]
                         //表体
+                        this.json_data = []
                         for(let rough_requirement of rough_requirements){
                             this.json_data.push({
                                 "rough_index": rough_requirement.index,
