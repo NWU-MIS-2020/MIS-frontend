@@ -13,6 +13,7 @@
 </template>
 <script>
     export default {
+        props: ['course_id'],
         data: () => ({
             snackbar: false,
             text: '成功',
@@ -56,6 +57,7 @@
                     .then(response => {
                         console.log(response)
                         this.snackbar = true
+                        this.$router.push({path: '/home/teacher/input?course_id=' + this.course_id})
                     })
             },
         }

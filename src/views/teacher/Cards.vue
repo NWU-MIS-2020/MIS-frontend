@@ -33,7 +33,7 @@
                 <v-dialog v-model="dialog" max-width="520px" :retain-focus="false">
                     <v-btn color="primary" @click="add_grade">手动新增评价值</v-btn>
                     <v-btn color="primary">
-                        <import-indicators-excel></import-indicators-excel>
+                        <import-indicators-excel :course_id="edit_course_id"></import-indicators-excel>
                     </v-btn>
                     <v-btn color="primary">
                         <export-indicators-template-excel v-bind:course_id="edit_course_id"></export-indicators-template-excel>
