@@ -73,7 +73,7 @@
   <v-col cols="12">
         <v-card>
     <v-card-title>
-      课程预测结果
+      指标点达成度列表
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -110,11 +110,11 @@
             
             headers: [
           {
-            text: '课程名',
+            text: '指标点编号',
             align: 'start',
             value: 'indicator_factor',
           },
-          { text: '加权平均分', value: 'total_marks' },
+          { text: '达成度', value: 'total_marks' },
         ],
           course_id: undefined, //历史课程id
           course: undefined, //历史课程的数据
