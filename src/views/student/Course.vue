@@ -79,7 +79,7 @@
           { text: '开课时间', value: 'start_date' },
           { text: '结课时间', value: 'end_date' },
           { text: '审核状态', value: 'review_status' },
-          { text: '审核人', value: 'teachers[0].name' }, 
+          // { text: '审核人', value: 'teachers[0].name' }, 
           { text: 'Actions', value: 'actions', sortable: false },
         ],
       
