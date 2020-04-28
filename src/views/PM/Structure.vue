@@ -15,6 +15,10 @@
                     <v-dialog v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on }">
                             <v-btn color="primary" dark class="mb-2" v-on="on">新建</v-btn>
+                            <download-excel :data="json_data" :fields="json_fields" :before-generate="startDownload"
+                                :before-finish="finishDownload" :name="xls_name" style="padding:0px 5px">
+                                <v-btn color="primary" dark class="mb-2">导出全部</v-btn>
+                            </download-excel>
                         </template>
                         <v-card>
                             <v-card-title>
@@ -160,7 +164,15 @@ export default {
             description: "",
             indicator_warning_line: 0.65,
             rough_requirement: -1
-        }
+        },
+        json_fields: {
+            "序号": "rough_index",
+            "毕业要求": "title",
+            "子序号": "detailed_index",
+            "描述": "description"
+        },
+        json_data: [],
+        xls_name: "毕业要求-指标点.xls"
     }),
     created() {},
     computed: {
@@ -330,7 +342,30 @@ export default {
                         this.point_close();
                     });
             }
-        }
+        },
+
+        async startDownload() {
+                console.log('show loading');
+                await this.$axios
+                    .get('plan/requirements/')
+                    .then((response) => {
+                        let rough_requirements = response.data["rough_requirements"]
+                        //表体
+                        for(let rough_requirement of rough_requirements){
+                            this.json_data.push({
+                                "rough_index": rough_requirement.index,
+                                "title": rough_requirement.title,
+                                "description": rough_requirement.description,
+                            })
+                            for(let detailed_requirement of rough_requirement.detailed_requirements){
+                                this.json_data.push({
+                                    "detailed_index": rough_requirement.index+"-"+detailed_requirement.index+"'",
+                                    "description": detailed_requirement.description,
+                                })
+                            }
+                        }
+                    })
+            },
     }
 };
 </script>
