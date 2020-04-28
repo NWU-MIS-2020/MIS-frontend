@@ -114,6 +114,10 @@ export default {
                         name: "查询毕业要求达成度统计情况",
                         route: "student/statistis"
                     },
+                    {
+                        name: "查询详细毕业要求达成度",
+                        route: "student/details"
+                    }
                 ]
             },
             {

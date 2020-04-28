@@ -25,8 +25,9 @@ export default {
     created() {},
     mounted() {
         this.student_username = this.username
-        if (this.disabled == true) {
+        if (this.disabled == true || this.disableInput == 'true') {
             this.query()
+            console.log(234)
         }
     },
     computed: {
