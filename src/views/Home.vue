@@ -136,7 +136,7 @@ export default {
                 actions: [
                     {
                         name: "查询学生毕业要求达成度列表",
-                        route: "tutor/cards"
+                        route: "tutor/lists"
                     },
                     {
                         name: "查询详细毕业要求达成度",

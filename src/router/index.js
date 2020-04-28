@@ -49,8 +49,8 @@ const routes = [
         component: () => import('../views/teacher/ModifyGrades')
       },
       {
-        path: 'tutor/cards',
-        component: () => import('../views/tutor/Cards'),
+        path: 'tutor/lists',
+        component: () => import('../views/tutor/Lists'),
       },
       {
         path: 'tutor/details',

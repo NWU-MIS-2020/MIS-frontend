@@ -18,21 +18,30 @@
                             <v-list-item-title class="headline mb-1">{{ item.offering_course.name }}</v-list-item-title>
 
                             <v-list-item-subtitle>人数: {{item.students.length}}</v-list-item-subtitle>
+                            <div v-if="item.review_status == '未通过'">
+                                <v-list-item-subtitle style="color: red">审核状态: {{item.review_status}}</v-list-item-subtitle>
 
-                            <v-list-item-subtitle>审核状态: {{item.review_status}}</v-list-item-subtitle>
-
-                            <v-list-item-subtitle
-                                v-if="item.review_status == '未通过'"
-                            >不通过原因: {{item.review_comment}}</v-list-item-subtitle>
+                                <v-list-item-subtitle style="color: red">不通过原因: {{item.review_comment}}</v-list-item-subtitle>
+                            </div>
+                            <div v-else>
+                                <v-list-item-subtitle>审核状态: {{item.review_status}}</v-list-item-subtitle>
+                            </div>
                         </v-list-item-content>
                     </v-list-item>
                 </v-card>
 
                 <v-dialog v-model="dialog" max-width="520px">
                     <v-btn color="primary" @click="add_grade">手动新增评价值</v-btn>
-                    <v-btn color="primary"><import-indicators-excel></import-indicators-excel></v-btn>
-                    <v-btn color="primary"><export-indicators-template-excel></export-indicators-template-excel></v-btn>
-                    <v-btn color="primary" :to="'/home/teacher/modify/?course_id=' + edit_course_id">修改评价值</v-btn>
+                    <v-btn color="primary">
+                        <import-indicators-excel></import-indicators-excel>
+                    </v-btn>
+                    <v-btn color="primary">
+                        <export-indicators-template-excel></export-indicators-template-excel>
+                    </v-btn>
+                    <v-btn
+                        color="primary"
+                        :to="'/home/teacher/modify/?course_id=' + edit_course_id"
+                    >修改评价值</v-btn>
                 </v-dialog>
             </v-col>
         </v-row>
@@ -40,14 +49,14 @@
 </template>
 
 <script>
-import ImportIndicatorsExcel from '@/components/excel/ImportIndicatorsExcel'
-import ExportIndicatorsTemplateExcel from '@/components/excel/ExportIndicatorsTemplateExcel'
+import ImportIndicatorsExcel from "@/components/excel/ImportIndicatorsExcel";
+import ExportIndicatorsTemplateExcel from "@/components/excel/ExportIndicatorsTemplateExcel";
 
 export default {
     components: {
-            'import-indicators-excel': ImportIndicatorsExcel,
-            'export-indicators-template-excel': ExportIndicatorsTemplateExcel,
-        },
+        "import-indicators-excel": ImportIndicatorsExcel,
+        "export-indicators-template-excel": ExportIndicatorsTemplateExcel
+    },
     data: () => ({
         courses: [],
         selected: [],
@@ -75,7 +84,7 @@ export default {
                 path: "input",
                 query: { course_id: this.edit_course_id }
             });
-        },
+        }
     },
     computed: {
         username: function() {

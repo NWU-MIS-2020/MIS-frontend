@@ -47,9 +47,7 @@
         </div>
 
         <v-dialog v-model="all_done_dialog" max-width="500px">
-            <v-card>
-            所有评价值已填写完成。
-            </v-card>
+            <v-card>所有评价值已填写完成。</v-card>
             <v-btn color="primary" to="/home/teacher/select_course">返回</v-btn>
         </v-dialog>
     </v-container>
@@ -109,7 +107,7 @@ export default {
         },
         done_student_number() {
             return this.all_student_number - this.undone_student_number;
-        },
+        }
     },
     methods: {
         submit() {
@@ -127,9 +125,17 @@ export default {
                 });
         },
         check() {
-            console.log(this.all_student_number)
-            console.log(this.done_student_number)
+            console.log(this.all_student_number);
+            console.log(this.done_student_number);
             if (this.all_student_number == this.done_student_number) {
+                this.$axios.put("course/courses/", {
+                    courses: [
+                        {
+                            id: this.course_id,
+                            review_status: "未审核"
+                        }
+                    ]
+                });
                 this.loading = true;
                 this.all_done_dialog = true;
             } else {

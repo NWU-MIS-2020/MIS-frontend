@@ -1,6 +1,6 @@
 <template>
     <div style="padding: 20px">
-        <v-select :items="classes" item-text="name" item-value="id" label="选择班级" v-model="class_id"></v-select>
+        <v-select :items="classes" :item-text="name" item-value="id" label="选择班级" v-model="class_id"></v-select>
         <v-btn color="primary" @click="query">查询</v-btn>
         <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
         <v-data-table
@@ -8,7 +8,12 @@
             :items="predictions"
             :items-per-page="50"
             class="elevation-1"
-        ></v-data-table>
+        >
+            <template v-slot:item.total_indicator="{item}">
+                <span v-if="item.total_indicator < 0.65" style="color: red">{{item.total_indicator}}</span>
+                <span v-else>{{item.total_indicator}}</span>
+            </template>
+        </v-data-table>
     </div>
 </template>
 
@@ -36,6 +41,9 @@ export default {
                     this.predictions = response.data.students;
                     this.loading = false;
                 });
+        },
+        name(item) {
+            return item.created_year + '级 ' + item.name
         }
     },
     created() {
