@@ -45,6 +45,7 @@
                             res_json_fields[basis.id + '_' + basis.name + '\n分数上限：' + basis.full_marks] = basis.id
                         }
                         //表体
+                        this.json_data = [{}]
                         console.log(course.students)
                         for(let student of course.students){
                             this.json_data.unshift({
