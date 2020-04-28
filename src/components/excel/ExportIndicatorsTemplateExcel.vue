@@ -12,9 +12,15 @@
 <script>
     //无数据,点击时获取 需要fetch ,fields属性 (有fetch时不需要data属性)
     export default {
+        props:{
+            course_id: {
+                type: String,
+                required: true
+            }
+        },
         data() {
             return {
-                course_id: 3,
+                // course_id: 3,
                 json_fields: {},
                 json_data: [{}],
                 xls_name: "评价值打分模版.xls"
@@ -27,6 +33,7 @@
                     "学号": "username",
                     "学生姓名": "name"
                 }
+                console.log(this.course_id)
                 await this.$axios
                     .get('course/courses/?id='+this.course_id)
                     .then((response) => {
