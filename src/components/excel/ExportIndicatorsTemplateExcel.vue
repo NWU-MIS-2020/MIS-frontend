@@ -14,7 +14,7 @@
     export default {
         props:{
             course_id: {
-                type: String,
+                type: Number,
                 required: true
             }
         },
