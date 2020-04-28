@@ -121,7 +121,7 @@ export default {
                 name_en: "teacher",
                 actions: [
                     {
-                        name: "录入达成度指标点",
+                        name: "录入课程达成度",
                         route: "teacher/select_course"
                     }
                 ]
@@ -131,11 +131,11 @@ export default {
                 name_en: "tutor",
                 actions: [
                     {
-                        name: "查询学生毕业要求达成度列表",
+                        name: "查询学生毕业达成度列表",
                         route: "tutor/lists"
                     },
                     {
-                        name: "查询详细毕业要求达成度",
+                        name: "查询学生详细达成情况",
                         route: "tutor/details"
                     }
                 ]
@@ -159,7 +159,7 @@ export default {
                 name_en: "PM",
                 actions: [
                     {
-                        name: "管理毕业要求指标点",
+                        name: "管理毕业要求及指标点",
                         route: "PM/structure"
                     },
                     {
