@@ -36,7 +36,7 @@
                         <import-indicators-excel></import-indicators-excel>
                     </v-btn>
                     <v-btn color="primary">
-                        <export-indicators-template-excel></export-indicators-template-excel>
+                        <export-indicators-template-excel v-bind:course_id="edit_course_id"></export-indicators-template-excel>
                     </v-btn>
                     <v-btn
                         color="primary"

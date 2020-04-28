@@ -103,15 +103,15 @@ export default {
                 name_en: "student",
                 actions: [
                     {
-                        name: "查询个人课程达成度",
+                        name: "查询课程达成度",
                         route: "student/inquire2"
                     },
                     {
-                        name: "查询个人预测值达成度以及预警",
+                        name: "查询毕业要求预测值达成度及预警",
                         route: "student/inquire"
                     },
                     {
-                        name: "查询个人达成度统计情况",
+                        name: "查询毕业要求达成度统计情况",
                         route: "student/statistis"
                     },
                 ]

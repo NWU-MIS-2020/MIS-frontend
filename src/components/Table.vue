@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      指标点评价值预测结果
+      毕业要求达成度预测结果
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -31,12 +31,12 @@
             flag:'',
             headers: [
           {
-            text: '指标点编号',
+            text: '毕业要求编号',
             align: 'start',
             value: 'rough_requirement_index',
           },
           { text: '预测评价值', value: 'indicator' },
-          { text: '预警', value: 'is_lt_wil' }
+          { text: '预警等级', value: 'is_lt_wil' }
         ],
         }),
         created() {
